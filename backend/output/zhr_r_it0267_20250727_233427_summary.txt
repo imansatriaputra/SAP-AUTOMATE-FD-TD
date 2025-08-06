@@ -1,0 +1,21 @@
+=== FSD ANALYSIS SUMMARY ===
+Generated on: 2025-07-27 23:35:42
+
+Program Name: zhr_r_it0267
+Description: One Time Payment
+Transaction Code: zhr_r_it0267
+
+STATISTICS:
+- Selection Parameters: 3
+- Field Mappings: 15
+- Error Scenarios: 4
+- Test Scenarios: 9
+- Validation Rules: 3
+- Authorization Objects: 0
+
+ANALYSIS COMPLETENESS:
+- User Requirements: ✓
+- Assumptions: ✗
+- Field Mappings: ✓
+- Error Handling: ✓
+- Test Coverage: ✓
