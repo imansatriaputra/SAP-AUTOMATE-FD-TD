@@ -1,0 +1,21 @@
+=== FSD ANALYSIS SUMMARY ===
+Generated on: 2025-08-06 20:13:23
+
+Program Name: 
+Description: 
+Transaction Code: 
+
+STATISTICS:
+- Selection Parameters: 0
+- Field Mappings: 0
+- Error Scenarios: 0
+- Test Scenarios: 0
+- Validation Rules: 0
+- Authorization Objects: 0
+
+ANALYSIS COMPLETENESS:
+- User Requirements: ✗
+- Assumptions: ✗
+- Field Mappings: ✗
+- Error Handling: ✗
+- Test Coverage: ✗

@@ -35,6 +35,7 @@ function App() {
   const [activeSection, setActiveSection]   = useState<SectionType>('generate-fd')
   const [isProcessing, setIsProcessing]     = useState(false)
   const [processedDocument, setProcessedDocument] = useState<any>(null)
+  const [processingLogs, setProcessingLogs] = useState<string[]>([])
 
   const toggleDarkMode = () => setIsDarkMode(d => !d)
 
@@ -105,10 +106,17 @@ function App() {
                       isProcessing={isProcessing}
                       setIsProcessing={setIsProcessing}
                       setProcessedDocument={setProcessedDocument}
+                      processingLogs={processingLogs}
+                      setProcessingLogs={setProcessingLogs}
                     />
                   </div>
                   <div className="xl:col-span-1">
-                    <InsightsPanel isDarkMode={isDarkMode} processedDocument={processedDocument} />
+                    <InsightsPanel 
+                      isDarkMode={isDarkMode} 
+                      processedDocument={processedDocument}
+                      processingLogs={processingLogs}
+                      isProcessing={isProcessing}
+                    />
                   </div>
                 </>
               )}

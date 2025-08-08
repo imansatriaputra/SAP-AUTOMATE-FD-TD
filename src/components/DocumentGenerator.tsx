@@ -6,7 +6,8 @@ import { getTemplate } from '../data/templates';
 import { getTemplateMappings } from '../data/csvDatabase';
 import {
   processHTMLWithMainPy,
-  generateDocumentWithFirstStart
+  generateDocumentWithFirstStart,
+  API_BASE_URL
 } from '../api/pythonAPI';
 
 interface DocumentGeneratorProps {
@@ -16,6 +17,8 @@ interface DocumentGeneratorProps {
   isProcessing: boolean;
   setIsProcessing: (processing: boolean) => void;
   setProcessedDocument: (doc: any) => void;
+  processingLogs: string[];
+  setProcessingLogs: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export function DocumentGenerator({ 
@@ -24,7 +27,9 @@ export function DocumentGenerator({
   activeSection,
   isProcessing,
   setIsProcessing,
-  setProcessedDocument
+  setProcessedDocument,
+  processingLogs,
+  setProcessingLogs
 }: DocumentGeneratorProps) {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [storedFile, setStoredFile] = useState<StoredFile | null>(null);
@@ -32,6 +37,7 @@ export function DocumentGenerator({
   const [finalDocument, setFinalDocument] = useState<string>('');
   const [processingStep, setProcessingStep] = useState<number>(0);
   const [systemFilePath, setSystemFilePath] = useState<string>('');
+  const [generatedFiles, setGeneratedFiles] = useState<any>(null);
 
   const getSectionTitle = () => {
     const titles: Record<SectionType, string> = {
@@ -83,63 +89,82 @@ export function DocumentGenerator({
     if (!storedFile) return;
 
     setIsProcessing(true);
-    setProcessingStep(1);
+    setProcessingLogs(['[INFO] Starting document processing...']);
 
     try {
-      // Step 1: Process HTML file with actual main.py via FastAPI
-      setProcessingStep(1);
-      console.log('Processing HTML file with main.py via FastAPI backend');
+      // Process HTML file with main.py via FastAPI
+      setProcessingLogs(prev => [...prev, '[INFO] Initializing main.py processing...']);
+      setProcessingLogs(prev => [...prev, `[INFO] Processing file: ${storedFile.name}`]);
+      setProcessingLogs(prev => [...prev, `[INFO] File size: ${formatFileSize(storedFile.size)}`]);
       
       // Create File object from stored file for API call
       const htmlContent = storedFile.content;
       const file = new File([htmlContent], storedFile.name, { type: 'text/html' });
       
+      setProcessingLogs(prev => [...prev, '[INFO] Sending file to FastAPI backend...']);
+      
       // Call actual Python backend
       const processingResult = await processHTMLWithMainPy(file);
       
       if (!processingResult.success) {
+        setProcessingLogs(prev => [...prev, `[ERROR] main.py processing failed: ${processingResult.error}`]);
         throw new Error(processingResult.error || 'Failed to process HTML with main.py');
       }
+      
+      setProcessingLogs(prev => [...prev, '[SUCCESS] main.py processing completed successfully']);
       
       // Extract results from main.py processing
       const fsdAnalysisData = processingResult.data;
       const markdownContent = processingResult.markdown || 'No markdown generated';
+      const outputFiles = processingResult.output_files || {};
       setMarkdownContent(markdownContent);
       
-      setProcessingStep(2);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Step 2: Process with firstStart.py
-      setProcessingStep(3);
+      setProcessingLogs(prev => [...prev, `[INFO] Generated markdown content (${markdownContent.length} characters)`]);
+      setProcessingLogs(prev => [...prev, `[INFO] Program identified: ${fsdAnalysisData.program_name || 'Unknown'}`]);
+      setProcessingLogs(prev => [...prev, `[INFO] Field mappings found: ${fsdAnalysisData.field_mappings || 0}`]);
+      setProcessingLogs(prev => [...prev, `[INFO] Test scenarios generated: ${fsdAnalysisData.test_scenarios || 0}`]);
+      setProcessingLogs(prev => [...prev, `[INFO] Generated files:`]);
       
-      const templateType = activeSection === 'generate-fd' ? 'functional' : 
-                          activeSection === 'generate-td' ? 'technical' : 'test-cases';
-      
-      const documentResult = await generateDocumentWithFirstStart(markdownContent, templateType);
-      
-      if (!documentResult.success) {
-        throw new Error(documentResult.error || 'Failed to generate document with firstStart.py');
+      // Log all generated files
+      if (outputFiles.markdown) {
+        setProcessingLogs(prev => [...prev, `[INFO] - Markdown: ${outputFiles.markdown}`]);
+      }
+      if (outputFiles.json) {
+        setProcessingLogs(prev => [...prev, `[INFO] - JSON: ${outputFiles.json}`]);
+      }
+      if (outputFiles.docx) {
+        setProcessingLogs(prev => [...prev, `[INFO] - DOCX: ${outputFiles.docx}`]);
+      }
+      if (outputFiles.final_docx) {
+        setProcessingLogs(prev => [...prev, `[INFO] - Final DOCX: ${outputFiles.final_docx}`]);
+      }
+      if (outputFiles.summary) {
+        setProcessingLogs(prev => [...prev, `[INFO] - Summary: ${outputFiles.summary}`]);
       }
       
-      const finalDocContent = documentResult.data?.content || `Generated ${getSectionTitle()} - Ready for download`;
+      // Set final document content from markdown or use default
+      const finalDocContent = markdownContent || `Generated ${getSectionTitle()} - Ready for download`;
       setFinalDocument(finalDocContent);
-
+      
       // Set processed document with actual data from main.py
       setProcessedDocument({
         markdown: markdownContent,
         final: finalDocContent,
+        output_files: outputFiles,
         ...fsdAnalysisData
       });
+      
+      // Store generated files for download
+      setGeneratedFiles(outputFiles);
 
-      setProcessingStep(4);
-      await new Promise(resolve => setTimeout(resolve, 500));
+      setProcessingLogs(prev => [...prev, '[SUCCESS] Document processing completed successfully!']);
 
     } catch (error) {
       console.error('Processing error:', error);
+      setProcessingLogs(prev => [...prev, `[ERROR] Processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`]);
       alert(`Processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsProcessing(false);
-      setProcessingStep(0);
     }
   };
 
@@ -223,17 +248,29 @@ export function DocumentGenerator({
   };
 
   const downloadDocument = () => {
-    if (!finalDocument) return;
+    downloadGeneratedDocument();
+  };
+
+  const downloadGeneratedDocument = () => {
+    if (!generatedFiles?.final_docx) {
+      alert('No DOCX document available for download');
+      return;
+    }
     
-    const blob = new Blob([finalDocument], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
+    // Extract filename from the full path
+    const fileName = generatedFiles.final_docx.split('/').pop() || 'document.docx';
+    
+    // Create download URL using FastAPI backend
+    const downloadUrl = `${API_BASE_URL}/api/download-file?file_path=${encodeURIComponent(generatedFiles.final_docx)}`;
+    
+    // Create temporary link to trigger download
     const link = document.createElement('a');
-    link.href = url;
-    link.download = `${activeSection}-document.txt`;
+    link.href = downloadUrl;
+    link.download = fileName;
+    link.target = '_blank'; // Fallback to open in new tab
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url);
   };
 
   const teamColor = activeTeam === 'functional' ? 'blue' : 'purple';
@@ -361,72 +398,74 @@ export function DocumentGenerator({
 
         {/* Markdown Preview */}
         {markdownContent && (
-          <div className={`rounded-lg border p-4 mb-6 ${
-            isDarkMode 
-              ? 'bg-gray-700 border-gray-600' 
-              : 'bg-gray-50 border-gray-200'
-          }`}>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className={`font-semibold ${
-                isDarkMode ? 'text-white' : 'text-gray-900'
-              }`}>
-                Generated Insights (Markdown)
-              </h3>
-              <button className={`flex items-center space-x-1 text-sm ${
-                teamColor === 'blue' ? 'text-blue-600' : 'text-purple-600'
-              }`}>
-                <Eye className="w-4 h-4" />
-                <span>Preview</span>
-              </button>
-            </div>
-            <pre className={`text-sm whitespace-pre-wrap max-h-64 overflow-y-auto ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+          <>
+            {/* Generated Document Download */}
+            <div className={`mb-6 p-4 rounded-lg border ${
+              isDarkMode 
+                ? 'bg-gray-700 border-gray-600' 
+                : 'bg-gray-50 border-gray-200'
             }`}>
-              {markdownContent}
-            </pre>
-          </div>
-        )}
-
-        {/* Download Section */}
-        {finalDocument && (
-          <div className={`rounded-lg border p-4 ${
-            teamColor === 'blue'
-              ? 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-700'
-              : 'bg-purple-50 border-purple-200 dark:bg-purple-900/20 dark:border-purple-700'
-          }`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <CheckCircle className={`w-6 h-6 ${
-                  teamColor === 'blue' ? 'text-blue-600' : 'text-purple-600'
-                }`} />
-                <div>
-                  <p className={`font-medium ${
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className={`w-6 h-6 ${
+                    teamColor === 'blue' ? 'text-blue-600' : 'text-purple-600'
+                  }`} />
+                  <div>
+                    <p className={`font-medium ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      Generated Document Ready
+                    </p>
+                    <p className={`text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                      Generated DOCX document from main.py processing
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={downloadDocument}
+                  disabled={!generatedFiles?.final_docx}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                    teamColor === 'blue'
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                      : 'bg-purple-600 hover:bg-purple-700 text-white'
+                  }`}
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download Document</span>
+                </button>
+              </div>
+              
+              {/* Generated Files Info */}
+              {generatedFiles && (
+                <div className={`mt-4 p-3 rounded-lg border ${
+                  isDarkMode 
+                    ? 'bg-gray-700 border-gray-600' 
+                    : 'bg-gray-50 border-gray-200'
+                }`}>
+                  <h4 className={`font-medium mb-2 ${
                     isDarkMode ? 'text-white' : 'text-gray-900'
                   }`}>
-                    Document Generated Successfully
-                  </p>
-                  <p className={`text-sm ${
+                    Generated Files Available on Server:
+                  </h4>
+                  <div className={`text-sm space-y-1 ${
                     isDarkMode ? 'text-gray-400' : 'text-gray-600'
                   }`}>
-                    Your {getSectionTitle().toLowerCase()} is ready for download
-                  </p>
+                    {generatedFiles.markdown && <p>• Markdown: {generatedFiles.markdown}</p>}
+                    {generatedFiles.json && <p>• JSON: {generatedFiles.json}</p>}
+                    {generatedFiles.docx && <p>• DOCX: {generatedFiles.docx}</p>}
+                    {generatedFiles.final_docx && <p>• Final DOCX: {generatedFiles.final_docx}</p>}
+                    {generatedFiles.summary && <p>• Summary: {generatedFiles.summary}</p>}
+                  </div>
                 </div>
-              </div>
-              <button
-                onClick={downloadDocument}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                  teamColor === 'blue'
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                    : 'bg-purple-600 hover:bg-purple-700 text-white'
-                }`}
-              >
-                <Download className="w-4 h-4" />
-                <span>Download</span>
-              </button>
+              )}
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>
   );
 }
+
+export default DocumentGenerator;

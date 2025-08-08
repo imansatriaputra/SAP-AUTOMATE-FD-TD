@@ -186,7 +186,7 @@ class ConfigManager:
             'project_name': os.getenv('PROJECT_NAME', 'System Integrator for Management Information System (MIS) Towards Single Source of Truth (SSoT)'),
             'default_output_dir': os.getenv('OUTPUT_DIR', './output'),
             'template_dir': os.getenv('TEMPLATE_DIR', './Template/FSD'),
-            'default_output_dir': os.getenv('OUTPUT_DIR', '/Users/wilbert.limson/python_project/wiilb-pln-gennie-BOLT/backend/output'),
+            'default_output_dir': os.getenv('OUTPUT_DIR', '/Users/wahyu.perwira/Documents/Project/poc/SAP-AUTOMATE-FD-TD/backend/output/output'),
             'temperature': float(os.getenv('TEMPERATURE', '0.1')),
             'requirement_list_excel': os.getenv('REQUIREMENT_LIST_EXCEL', 'lookup-sheets/Requirement-List.xlsx')
         })
@@ -1790,7 +1790,8 @@ class EnhancedIntelligentFSDGenerator:
         
         # Use provided template path or default
         if not template_path:
-            template_path = "/Users/wilbert.limson/python_project/PLN-Genie/Template/FSD/PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
+            # template_paths = "/Users/wilbert.limson/python_project/PLN-Genie/Template/FSD/PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
+            template_path = r"C:\Users\wahyu.perwira\Documents\Project\poc\SAP-AUTOMATE-FD-TD\backend\templates\Template_PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
         
         # Generate FSD document
         fsd_document = await self.mapper.analyze_and_map(html_file_path)
@@ -1896,7 +1897,7 @@ class ConfigurationRequest(BaseModel):
     max_tokens: Optional[int] = 4096
     temperature: Optional[float] = 0.1
     gemini_api_url: Optional[str] = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent"
-    requirement_list_excel: Optional[str] = "/Users/wilbert.limson/python_project/wiilb-pln-gennie-BOLT/backend/database/Requirement-List.xlsx"
+    requirement_list_excel: Optional[str] = "/Users/wahyu.perwira/Documents/Project/poc/SAP-AUTOMATE-FD-TD/backend/output/database/Requirement-List.xlsx"
 
 class ProcessingStatus(BaseModel):
     job_id: str
@@ -1927,7 +1928,7 @@ app.add_middleware(
 
 # Directory setup
 UPLOAD_DIR = "uploads"
-OUTPUT_DIR = "/Users/wilbert.limson/python_project/wiilb-pln-gennie-BOLT/backend/output"
+OUTPUT_DIR = "/Users/wahyu.perwira/Documents/Project/poc/SAP-AUTOMATE-FD-TD/backend/output/output"
 TEMPLATE_DIR = "templates"
 CONFIG_DIR = "config"
 
@@ -2953,7 +2954,7 @@ def create_sample_config():
         "template_dir": "./Template/FSD",
         "max_tokens": 4096,
         "temperature": 0.1,
-        "default_template_path": "/Users/wilbert.limson/python_project/PLN-Genie/Template/FSD/PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
+        "default_template_path": r"C:\Users\wahyu.perwira\Documents\Project\poc\SAP-AUTOMATE-FD-TD\backend\templates\Template_PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
     }
     
     with open('fsd_config.json', 'w', encoding='utf-8') as f:
@@ -2967,7 +2968,7 @@ async def example_single_file():
     """Example: Process a single file"""
     config_file = "fsd_config.json"
     html_file = "sample_input.html"
-    template_file = "/Users/wilbert.limson/python_project/PLN-Genie/Template/FSD/PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
+    template_file = r"C:\Users\wahyu.perwira\Documents\Project\poc\SAP-AUTOMATE-FD-TD\backend\templates\Template_PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
     
     try:
         generator = EnhancedIntelligentFSDGenerator(config_file)
@@ -2989,7 +2990,7 @@ async def example_batch_processing():
         "file2.html", 
         "file3.html"
     ]
-    template_file = "/Users/wilbert.limson/python_project/wiilb-pln-gennie-BOLT/backend/templates/Template_PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
+    template_file = "/Users/wahyu.perwira/Documents/Project/poc/SAP-AUTOMATE-FD-TD/backend/output/templates/Template_PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
     
     try:
         generator = EnhancedIntelligentFSDGenerator(config_file)
