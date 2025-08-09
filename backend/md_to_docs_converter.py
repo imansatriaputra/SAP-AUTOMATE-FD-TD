@@ -1052,11 +1052,15 @@ class TitlePageWordGenerator:
             doc = DocxDocument(self.template_path)
             logger.info(f"📄 Opened template: {self.template_path}")
 
+            print("[Debug] title_info", title_info)
             ricefw   = title_info.get('ricefw_id', '').strip()      # e.g. "RHR006"
             filename = title_info.get('file_name', '').strip()      # e.g. "Laporan tunjangan & potongan tidak tetap"
             new_heading = f"{ricefw} {filename}"
+            print("[Debug] New heading:", new_heading)
             for paragraph in doc.paragraphs:
+                print("[Debug] paragraph", paragraph.text)
                 if paragraph.text.strip().endswith("(Nama File)"):
+                    print("[Debug] Found placeholder for title:", paragraph.text.strip().endswith("(Nama File)"))
                     # replace entire placeholder line with our dynamic heading
                     self.replace_text_preserve_formatting(
                         paragraph,
@@ -1475,6 +1479,7 @@ def main():
     import sys
     
     # Default values - these should be passed as parameters or from config
+    # DEFAULT_MARKDOWN_PATH = "/Users/wilbert.limson/python_project/PLN-Genie/output/zhr_r_it0267_fsd.md"
     DEFAULT_MARKDOWN_PATH = "/Users/wilbert.limson/python_project/PLN-Genie/output/zhr_r_it0015_fsd.md"
     DEFAULT_TEMPLATE_PATH = "/Users/wilbert.limson/python_project/PLN-Genie/Template/FSD/Template_PLN_SI SSoT_(DAPI ID)_(Module Name)_Functional Specification Design (FSD)_v100_ID.docx"
     DEFAULT_OUTPUT_DIR = "/Users/wilbert.limson/python_project/PLN-Genie/one_output/"

@@ -1007,8 +1007,10 @@ class LLMClient:
     def __init__(self, config: ConfigManager):
         self.config = config
         self.session = None
-        self.api_key = os.getenv('GEMINI_API_KEY')
-        self.api_url = config.get('gemini_api_url')
+        # self.api_key = os.getenv('GEMINI_API_KEY')
+        # self.api_url = config.get('gemini_api_url')
+        self.api_key = os.getenv('GEMINI_API_KEY', '').strip('"')
+        self.api_url = config.get('gemini_api_url', '').strip('"')
         self.max_tokens = config.get('max_tokens')
         self.temperature = config.get('temperature')
     
@@ -1076,6 +1078,8 @@ class LLMClient:
         }
         
         url = f"{self.api_url}?key={self.api_key}"
+        print(f"[Debug - Call API] Calling LLM API: {url}")
+        # print(f"[Debug - Call API] Payload: {json.dumps(payload, indent=2)}")
         
         async with self.session.post(url, headers=headers, json=payload) as response:
             if response.status == 200:

@@ -10,6 +10,7 @@ export interface ProcessingResult {
 // const API_BASE_URL = 'http://localhost:8000';
 // const API_BASE_URL = 'http://0.0.0.0:8001/';
 const API_BASE_URL = 'http://127.0.0.1:8001';
+// const API_BASE_URL = 'http://ec2-108-136-61-103.ap-southeast-3.compute.amazonaws.com:8000';
 
 // Export API_BASE_URL for use in other components
 export { API_BASE_URL };

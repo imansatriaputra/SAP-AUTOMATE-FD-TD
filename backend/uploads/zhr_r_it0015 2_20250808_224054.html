@@ -1,0 +1,739 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZHR_R_IT0015</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHR_R_IT0015</h2>
+<h3> Description: Additional Payment & deduction</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHR_R_IT0015<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Confidential&nbsp;and&nbsp;Proprietary<br />
+*&nbsp;PLN&nbsp;ERP&nbsp;Single&nbsp;Source&nbsp;of&nbsp;Truth&nbsp;Project<br />
+*----------------------------------------------------------------------*<br />
+*&nbsp;Object&nbsp;Name&nbsp;:&nbsp;ZHR_R_IT0015<br />
+*&nbsp;RICEFW&nbsp;ID&nbsp;&nbsp;&nbsp;:&nbsp;[RHR006]<br />
+*&nbsp;Created&nbsp;on&nbsp;&nbsp;:&nbsp;25.06.2025<br />
+*&nbsp;Created&nbsp;by&nbsp;&nbsp;:&nbsp;[ICON_RIO]&nbsp;(Rio&nbsp;R)<br />
+*&nbsp;Functional&nbsp;&nbsp;:&nbsp;(Nasya&nbsp;Miranda&nbsp;Umar)<br />
+*&nbsp;Description&nbsp;:&nbsp;Report&nbsp;of&nbsp;allowance&nbsp;&&nbsp;deduction&nbsp;tidak&nbsp;tetap<br />
+*&nbsp;Assumption&nbsp;&nbsp;:&nbsp;PA00015&nbsp;been&nbsp;created<br />
+*----------------------------------------------------------------------<br />
+*&nbsp;CHANGE&nbsp;ON&nbsp;&nbsp;&nbsp;CHANGE&nbsp;BY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGE&nbsp;NO<br />
+*----------------------------------------------------------------------<br />
+*&nbsp;25.06.2025&nbsp;&nbsp;[ICON_RIO]/(Rio&nbsp;R)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DR1K902358]<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Initial&nbsp;Program]<br />
+*----------------------------------------------------------------------<br />
+<br />
+   </div>
+   <div class="code">
+REPORT zhr_r_it0015.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-----------------------------------------------------------------------<br />
+*&nbsp;N&nbsp;O&nbsp;D&nbsp;E&nbsp;S<br />
+*-----------------------------------------------------------------------<br />
+   </div>
+   <div class="code">
+NODES:<br />
+&nbsp;&nbsp;peras.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;T&nbsp;A&nbsp;B&nbsp;L&nbsp;E&nbsp;S<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TABLES:<br />
+&nbsp;&nbsp;pernr.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Xxxxx<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;T&nbsp;Y&nbsp;P&nbsp;E&nbsp;S<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TYPE-POOLS:<br />
+&nbsp;&nbsp;abap.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ABAP&nbsp;Language&nbsp;Type-Pool<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;I&nbsp;N&nbsp;F&nbsp;O&nbsp;T&nbsp;Y&nbsp;P&nbsp;E&nbsp;S<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INFOTYPES: 0000 MODE N,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0001&nbsp;MODE&nbsp;N,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0014&nbsp;MODE&nbsp;N,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Deduction<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0015&nbsp;MODE&nbsp;N,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Additional&nbsp;Payment<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0032&nbsp;MODE&nbsp;N.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;G&nbsp;L&nbsp;O&nbsp;B&nbsp;A&nbsp;L&nbsp;&nbsp;&nbsp;V&nbsp;A&nbsp;R&nbsp;I&nbsp;A&nbsp;B&nbsp;L&nbsp;E&nbsp;S<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+DATA:<br />
+&nbsp;&nbsp;gv_begda&nbsp;TYPE&nbsp;sy-datum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;##NEEDED,<br />
+&nbsp;&nbsp;gv_endda&nbsp;TYPE&nbsp;sy-datum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;##NEEDED,<br />
+&nbsp;&nbsp;gv_msg&nbsp;&nbsp;&nbsp;TYPE&nbsp;string.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;C&nbsp;O&nbsp;N&nbsp;S&nbsp;T&nbsp;A&nbsp;N&nbsp;T&nbsp;S<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CONSTANTS: gc_pcce_eval_period TYPE pcce_eval_period   VALUE 2,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gc_rcomp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;rcomp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;'PLN',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gc_date_01(2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;'01',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gc_procid_01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zab_db_proc-prcod&nbsp;&nbsp;VALUE&nbsp;'RHR006_01',&nbsp;##NEEDED&nbsp;&nbsp;"Summary&nbsp;Data&nbsp;Id<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gc_molga&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;molga&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;'34'.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;CLASS&nbsp;DEFINITION<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS lcl_class DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:&nbsp;BEGIN&nbsp;OF&nbsp;lty_hr_report,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bukrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;bukrs,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;butxt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;butxt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gsber&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;gsber,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gsber_text&nbsp;TYPE&nbsp;tgtxt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pernr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;pernr_d,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prev_pernr&nbsp;TYPE&nbsp;pa0002-pernr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ename,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;begda,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lgart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgtxt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lgtxt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;betrg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;betrg,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;waers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;waers,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;lty_hr_report,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN&nbsp;OF&nbsp;lty_t001,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bukrs&nbsp;TYPE&nbsp;t001-bukrs,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;butxt&nbsp;TYPE&nbsp;t001-butxt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;lty_t001,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN&nbsp;OF&nbsp;lty_tgsbt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gsber&nbsp;TYPE&nbsp;tgsbt-gsber,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gtext&nbsp;TYPE&nbsp;tgsbt-gtext,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;lty_tgsbt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN&nbsp;OF&nbsp;lty_t500p,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;molga&nbsp;TYPE&nbsp;t500p-molga,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;persa&nbsp;TYPE&nbsp;t500p-persa,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;lty_t500p,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN&nbsp;OF&nbsp;lty_t512t,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgart&nbsp;TYPE&nbsp;t512t-lgart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgtxt&nbsp;TYPE&nbsp;t512t-lgtxt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;lty_t512t.<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TYPES:&nbsp;lty_hr_report_tab&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;lty_hr_report&nbsp;WITH&nbsp;EMPTY&nbsp;KEY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;lt_hr_report&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;lty_hr_report,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_t001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;lty_t001,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_tgsbt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;lty_tgsbt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_t512t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;lty_t512t,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_t500p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;lty_t500p.<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;M&nbsp;E&nbsp;T&nbsp;H&nbsp;O&nbsp;D&nbsp;S<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:&nbsp;is_authorized&nbsp;RETURNING&nbsp;VALUE(rt_result)&nbsp;TYPE&nbsp;abap_boolean.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_populate_range_date,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_additional_data,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_infotype_0001,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_infotype_0015,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_infotype_0032,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get_data<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING&nbsp;VALUE(rt_data)&nbsp;TYPE&nbsp;lty_hr_report_tab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process_data,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;display_alv.<br />
+<br />
+<br />
+<br />
+ENDCLASS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;S&nbsp;E&nbsp;L&nbsp;E&nbsp;C&nbsp;T&nbsp;I&nbsp;O&nbsp;N&nbsp;-&nbsp;S&nbsp;C&nbsp;R&nbsp;E&nbsp;E&nbsp;N<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b01 WITH FRAME TITLE TEXT-b01. "Xxxxx<br />
+&nbsp;&nbsp;SELECT-OPTIONS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s_lgart&nbsp;FOR&nbsp;p0015-lgart&nbsp;NO&nbsp;INTERVALS.&nbsp;"Wage&nbsp;Type<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b01.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;I&nbsp;N&nbsp;I&nbsp;T&nbsp;I&nbsp;A&nbsp;L&nbsp;I&nbsp;Z&nbsp;A&nbsp;T&nbsp;I&nbsp;O&nbsp;N<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+&nbsp;&nbsp;pnptimed&nbsp;=&nbsp;gc_pcce_eval_period.<br />
+&nbsp;&nbsp;IF&nbsp;sy-datum+4(2)&nbsp;EQ&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pnppabrj&nbsp;=&nbsp;sy-datum(4)&nbsp;-&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pnppabrp&nbsp;=&nbsp;gc_pcce_eval_period.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pnppabrj&nbsp;=&nbsp;sy-datum(4).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;pnppabrp&nbsp;=&nbsp;sy-datum+4(2)&nbsp;-&nbsp;1.<br />
+&nbsp;&nbsp;ENDIF.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;A&nbsp;T&nbsp;&nbsp;&nbsp;S&nbsp;E&nbsp;L&nbsp;E&nbsp;C&nbsp;T&nbsp;I&nbsp;O&nbsp;N&nbsp;-&nbsp;S&nbsp;C&nbsp;R&nbsp;E&nbsp;E&nbsp;N<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;locking&nbsp;logic<br />
+&nbsp;&nbsp;IF&nbsp;zab_cl_ricefw=&gt;is_process_active(&nbsp;iv_prcod&nbsp;=&nbsp;gc_procid_01&nbsp;)&nbsp;EQ&nbsp;abap_false.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;e017(zab)&nbsp;WITH&nbsp;gc_procid_01.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;cek&nbsp;auth<br />
+&nbsp;&nbsp;DATA(is_auth)&nbsp;=&nbsp;lcl_class=&gt;is_authorized(&nbsp;).<br />
+&nbsp;&nbsp;IF&nbsp;is_auth&nbsp;EQ&nbsp;abap_false.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;i172(00)&nbsp;WITH&nbsp;'ZPQ_IT0015'&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;STOP.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;S&nbsp;T&nbsp;A&nbsp;R&nbsp;T&nbsp;-&nbsp;O&nbsp;F&nbsp;-&nbsp;S&nbsp;E&nbsp;L&nbsp;E&nbsp;C&nbsp;T&nbsp;I&nbsp;O&nbsp;N<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;"Instantiate&nbsp;ALV&nbsp;Class<br />
+&nbsp;&nbsp;DATA(lo_class)&nbsp;=&nbsp;NEW&nbsp;lcl_class(&nbsp;).<br />
+&nbsp;&nbsp;lo_class-&gt;get_populate_range_date(&nbsp;).<br />
+&nbsp;&nbsp;lo_class-&gt;get_additional_data(&nbsp;).<br />
+<br />
+GET peras.<br />
+<br />
+&nbsp;&nbsp;lo_class-&gt;get_data(&nbsp;).<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;E&nbsp;N&nbsp;D&nbsp;-&nbsp;O&nbsp;F&nbsp;-&nbsp;S&nbsp;E&nbsp;L&nbsp;E&nbsp;C&nbsp;T&nbsp;I&nbsp;O&nbsp;N<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+END-OF-SELECTION.<br />
+&nbsp;&nbsp;lo_class-&gt;process_data(&nbsp;).<br />
+&nbsp;&nbsp;lo_class-&gt;display_alv(&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------------------------------*<br />
+*&nbsp;C&nbsp;L&nbsp;A&nbsp;S&nbsp;S&nbsp;&nbsp;&nbsp;I&nbsp;M&nbsp;P&nbsp;L&nbsp;E&nbsp;M&nbsp;E&nbsp;N&nbsp;T&nbsp;A&nbsp;T&nbsp;I&nbsp;O&nbsp;N<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS lcl_class IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;get_infotype_0001.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;REFRESH&nbsp;p0001.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;rp_read_infotype&nbsp;peras-pernr&nbsp;0001&nbsp;p0001&nbsp;pn-begda&nbsp;pn-endda.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;rp_provide_from_last&nbsp;p0001&nbsp;space&nbsp;pn-begda&nbsp;pn-endda.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;get_infotype_0015.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;REFRESH&nbsp;p0015.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;rp_read_infotype&nbsp;peras-pernr&nbsp;0015&nbsp;p0015&nbsp;pn-begda&nbsp;pn-endda.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;rp_provide_from_last&nbsp;p0015&nbsp;space&nbsp;pn-begda&nbsp;pn-endda.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;get_infotype_0032.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;REFRESH&nbsp;p0032.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;rp_read_infotype&nbsp;peras-pernr&nbsp;0032&nbsp;p0032&nbsp;pn-begda&nbsp;pn-endda.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;rp_provide_from_last&nbsp;p0032&nbsp;space&nbsp;pn-begda&nbsp;pn-endda.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+&nbsp;&nbsp;METHOD&nbsp;get_additional_data.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;:&nbsp;lt_tgsbt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_t001,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_t512t,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_t500p.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bukrs<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;butxt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;t001<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;lt_t001<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;rcomp&nbsp;=&nbsp;gc_rcomp.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gsber<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gtext<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;tgsbt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;lt_tgsbt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;spras&nbsp;=&nbsp;'E'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgtxt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;t512t<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;lt_t512t<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;sprsl&nbsp;=&nbsp;'E'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;molga&nbsp;=&nbsp;gc_molga.<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SORT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SORT&nbsp;lt_tgsbt&nbsp;BY&nbsp;gsber.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SORT&nbsp;lt_t001&nbsp;BY&nbsp;bukrs.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SORT&nbsp;lt_t512t&nbsp;BY&nbsp;lgart.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+&nbsp;&nbsp;METHOD&nbsp;get_data.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;lw_result&nbsp;TYPE&nbsp;lty_hr_report,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_no&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;get_infotype_0001(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;get_infotype_0015(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;get_infotype_0032(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"check&nbsp;if&nbsp;pern&nbsp;exist&nbsp;on&nbsp;p0015.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;p0015-pernr&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Get&nbsp;Name&nbsp;of&nbsp;Company&nbsp;Code<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;lt_t001&nbsp;ASSIGNING&nbsp;FIELD-SYMBOL(&lt;fs_butxt&gt;)&nbsp;WITH&nbsp;KEY&nbsp;bukrs&nbsp;=&nbsp;p0001-bukrs&nbsp;BINARY&nbsp;SEARCH.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-butxt&nbsp;=&nbsp;&lt;fs_butxt&gt;-butxt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Get&nbsp;Business&nbsp;Area&nbsp;Description<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;lt_tgsbt&nbsp;ASSIGNING&nbsp;FIELD-SYMBOL(&lt;fs_tgsbt&gt;)&nbsp;WITH&nbsp;KEY&nbsp;gsber&nbsp;=&nbsp;p0001-gsber&nbsp;BINARY&nbsp;SEARCH.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-gsber_text&nbsp;=&nbsp;&lt;fs_tgsbt&gt;-gtext.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Get&nbsp;wage&nbsp;type<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;lt_t512t&nbsp;ASSIGNING&nbsp;FIELD-SYMBOL(&lt;fs_t512t&gt;)&nbsp;WITH&nbsp;KEY&nbsp;lgart&nbsp;=&nbsp;p0015-lgart&nbsp;BINARY&nbsp;SEARCH.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-lgtxt&nbsp;=&nbsp;&lt;fs_t512t&gt;-lgtxt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-bukrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p0001-bukrs.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-gsber&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p0001-gsber.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_no.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-pernr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p0001-pernr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-prev_pernr&nbsp;&nbsp;&nbsp;=&nbsp;p0032-pnalt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p0001-ename.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-begda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p0015-begda.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-lgart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p0015-lgart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-betrg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p0015-betrg.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lw_result-waers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p0015-waers.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;lw_result&nbsp;TO&nbsp;lt_hr_report.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;lw_result.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+&nbsp;&nbsp;METHOD&nbsp;process_data.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;s_lgart[]&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DELETE&nbsp;lt_hr_report&nbsp;WHERE&nbsp;lgart&nbsp;NOT&nbsp;IN&nbsp;s_lgart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;display_alv.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;o_salv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_salv_table,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;o_alv_columns_table&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_salv_columns_table,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lo_aggr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_salv_aggregations,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lo_alv_alv_column&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_salv_column.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;cl_salv_table=&gt;factory<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list_display&nbsp;=&nbsp;if_salv_c_bool_sap=&gt;false<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r_salv_table&nbsp;=&nbsp;o_salv<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lt_hr_report.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_msg&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;o_salv-&gt;set_screen_status(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;report&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sy-repid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ABAP&nbsp;Program:&nbsp;Current&nbsp;Master&nbsp;Program<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pfstatus&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'STANDARD'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Screens,&nbsp;Current&nbsp;GUI&nbsp;Status<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set_functions&nbsp;=&nbsp;o_salv-&gt;c_functions_all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV:&nbsp;Data&nbsp;Element&nbsp;for&nbsp;Constants<br />
+<br />
+&nbsp;&nbsp;&nbsp;).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA(lo_functions)&nbsp;=&nbsp;o_salv-&gt;get_functions(&nbsp;).<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lo_functions-&gt;set_all(&nbsp;abap_true&nbsp;).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_salv-&gt;get_columns<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RECEIVING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;=&nbsp;o_alv_columns_table.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;o_alv_columns_table-&gt;set_optimize(&nbsp;abap_true&nbsp;).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'BUKRS'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Co&nbsp;Code'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Company&nbsp;Code'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Company&nbsp;Code'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'BUTXT'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Company'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Company'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Name&nbsp;of&nbsp;Company&nbsp;Code'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'GSBER'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Bus&nbsp;Area'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Business&nbsp;Area'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Business&nbsp;Area&nbsp;'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'GTEXT'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Bus&nbsp;Area&nbsp;'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Business&nbsp;Area&nbsp;Desc'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Business&nbsp;Area&nbsp;Description&nbsp;'&nbsp;##NO_TEXT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'COUNT'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Count&nbsp;'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Count'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Count'&nbsp;##NO_TEXT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'PNALT'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Nipeg&nbsp;'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'No&nbsp;Induk&nbsp;Pegawai'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Nomer&nbsp;Indux&nbsp;Pegawai'&nbsp;##NO_TEXT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'NAME'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Name'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Name&nbsp;of&nbsp;Employee'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Name&nbsp;of&nbsp;Employee&nbsp;or&nbsp;applicant'&nbsp;##NO_TEXT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'BEGDA'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Start&nbsp;Dat'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Start&nbsp;Date'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Start&nbsp;Date'&nbsp;##NO_TEXT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'WAERS'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Crcy&nbsp;'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Currency'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Currency'&nbsp;##NO_TEXT.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'BETRG'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Amount'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Amount'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Amount'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_currency_column(&nbsp;'WAERS'&nbsp;).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'LGART'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Wage&nbsp;Type'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Wage&nbsp;Type'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Wage&nbsp;Type'&nbsp;##NO_TEXT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;o_alv_columns_table-&gt;get_column&nbsp;EXPORTING&nbsp;columnname&nbsp;=&nbsp;'LGTXT'&nbsp;RECEIVING&nbsp;value&nbsp;=&nbsp;lo_alv_alv_column.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;lo_alv_alv_column&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_short_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Wage&nbsp;Type'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_medium_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Wage&nbsp;Type'&nbsp;##NO_TEXT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;lo_alv_alv_column-&gt;set_long_text&nbsp;EXPORTING&nbsp;value&nbsp;=&nbsp;'Wage&nbsp;Type'&nbsp;##NO_TEXT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_data_error&nbsp;&nbsp;&nbsp;##NO_HANDLER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;aggregation<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lo_aggr&nbsp;=&nbsp;o_salv-&gt;get_aggregations(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lo_aggr-&gt;add_aggregation(&nbsp;columnname&nbsp;=&nbsp;'COUNT'&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;cx_salv_data_error&nbsp;cx_salv_existing.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lo_aggr-&gt;add_aggregation(&nbsp;columnname&nbsp;=&nbsp;'BETRG'&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;cx_salv_data_error&nbsp;cx_salv_existing.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;sorting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(lo_sorts)&nbsp;=&nbsp;o_salv-&gt;get_sorts(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lo_sorts-&gt;add_sort(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnname&nbsp;=&nbsp;'LGART'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sequence&nbsp;&nbsp;&nbsp;=&nbsp;if_salv_c_sort=&gt;sort_up<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_not_found&nbsp;cx_salv_data_error&nbsp;cx_salv_existing.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;o_salv-&gt;display(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;get_populate_range_date.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;gv_begda.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CONCATENATE&nbsp;pn-begda+0(4)&nbsp;pn-begda+4(2)&nbsp;gc_date_01<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;gv_begda.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"populate&nbsp;endda<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'RP_LAST_DAY_OF_MONTHS'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day_in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;gv_begda<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last_day_of_month&nbsp;=&nbsp;gv_endda<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;day_in_no_date&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;ID&nbsp;sy-msgid&nbsp;TYPE&nbsp;fiehc_con_msgty_s&nbsp;NUMBER&nbsp;sy-msgno<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;sy-msgv1&nbsp;sy-msgv2&nbsp;sy-msgv3&nbsp;sy-msgv4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY&nbsp;LIKE&nbsp;fiehc_con_msgty_e.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;LIST-PROCESSING.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;is_authorized.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:&nbsp;li_adm_user&nbsp;TYPE&nbsp;efg_tab_ranges.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;zcl_tvarv=&gt;get_selectopt_value<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_name&nbsp;&nbsp;=&nbsp;'ZP_SUPPORT_PAYROLL'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_tvarv&nbsp;=&nbsp;li_adm_user.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_salv_msg&nbsp;INTO&nbsp;DATA(lc_msg)&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(lv_string)&nbsp;=&nbsp;lc_msg-&gt;get_text(&nbsp;).&nbsp;&nbsp;&nbsp;"&nbsp;&lt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;lv_string&nbsp;TYPE&nbsp;'I'.&nbsp;&nbsp;"&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"#EC&nbsp;NO_HANDLER<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDTRY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;li_adm_user&nbsp;ASSIGNING&nbsp;FIELD-SYMBOL(&lt;fs_row&gt;)&nbsp;WITH&nbsp;KEY&nbsp;low&nbsp;=&nbsp;sy-uname.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rt_result&nbsp;=&nbsp;abap_true.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rt_result&nbsp;=&nbsp;abap_false.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rt_result&nbsp;=&nbsp;abap_false.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+ENDCLASS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;B01&nbsp;Program&nbsp;Selection<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;S_LGART&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;00<br />
+*172&nbsp;&nbsp;&nbsp;You&nbsp;are&nbsp;not&nbsp;authorized&nbsp;to&nbsp;use&nbsp;transaction&nbsp;&<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZAB<br />
+*017&nbsp;&nbsp;&nbsp;Process&nbsp;Code&nbsp;&&nbsp;is&nbsp;not&nbsp;active<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>
