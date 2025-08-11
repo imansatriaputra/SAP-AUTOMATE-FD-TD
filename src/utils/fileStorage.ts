@@ -38,9 +38,9 @@ export async function storeFileLocally(file: File): Promise<StoredFile> {
     existingFiles.push(storedFile);
     
     // Store in localStorage
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existingFiles));
+    // localStorage.setItem(STORAGE_KEY, JSON.stringify(existingFiles));
     
-    console.log(`File stored locally: ${storagePath}`);
+    // console.log(`File stored locally: ${storagePath}`);
     
     return storedFile;
   } catch (error) {

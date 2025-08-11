@@ -1,16 +1,16 @@
 === FSD ANALYSIS SUMMARY ===
-Generated on: 2025-08-08 22:42:09
+Generated on: 2025-08-09 14:23:20
 
 Program Name: ZHR_R_IT0015
 Description: Additional Payment & deduction
 Transaction Code: ZHR_R_IT0015
 
 STATISTICS:
-- Selection Parameters: 5
-- Field Mappings: 41
-- Error Scenarios: 16
-- Test Scenarios: 33
-- Validation Rules: 12
+- Selection Parameters: 14
+- Field Mappings: 86
+- Error Scenarios: 24
+- Test Scenarios: 59
+- Validation Rules: 17
 - Authorization Objects: 0
 
 ANALYSIS COMPLETENESS:

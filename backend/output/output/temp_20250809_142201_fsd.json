@@ -1,0 +1,1824 @@
+{
+  "project_name": "System Integrator for Management Information System (MIS) Towards Single Source of Truth (SSoT)",
+  "document_location": "temp_20250809_142201.html",
+  "related_documents": [
+    "RICEFW ID: RHR006",
+    "RICEFW ID: RHR018",
+    "RICEFW ID: RHR018",
+    "RICEFW ID: RHR018",
+    "RICEFW ID: RHR018",
+    "RICEFW ID: RHR006"
+  ],
+  "reviewers": [
+    {
+      "role": "Functional Lead",
+      "name": "Nasya Miranda Umar"
+    },
+    {
+      "role": "Functional Lead",
+      "name": "Nasya Miranda Umar"
+    },
+    {
+      "role": "Functional Lead",
+      "name": "Nasya Miranda Umar"
+    },
+    {
+      "role": "Functional Lead",
+      "name": "Nasya Miranda Umar"
+    },
+    {
+      "role": "Functional Lead",
+      "name": "Nasya Miranda Umar"
+    },
+    {
+      "role": "Functional Lead",
+      "name": "Nasya Miranda Umar"
+    }
+  ],
+  "version_history": [
+    {
+      "version": "0.01",
+      "change": "Initial draft",
+      "author": "ICON_RIO (Rio R)",
+      "date": "25.06.2025"
+    },
+    {
+      "version": "0.01",
+      "change": "Initial draft",
+      "author": "Adfriansyah",
+      "date": "25.06.2025"
+    },
+    {
+      "version": "0.01",
+      "change": "Initial draft",
+      "author": "Adfriansyah",
+      "date": "25.06.2025"
+    },
+    {
+      "version": "0.01",
+      "change": "Initial draft",
+      "author": "Adfriansyah",
+      "date": "25.06.2025"
+    },
+    {
+      "version": "0.01",
+      "change": "Initial draft",
+      "author": "Adfriansyah",
+      "date": "25.06.2025"
+    },
+    {
+      "version": "0.01",
+      "change": "Initial draft",
+      "author": "ICON_RIO (Rio R)",
+      "date": "25.06.2025"
+    }
+  ],
+  "user_requirements": "Kebutuhan pengguna adalah untuk melihat data pembayaran dan potongan tambahan karyawan berdasarkan jenis upah tertentu.",
+  "assumptions": [
+    "PA0015 telah dibuat"
+  ],
+  "program_name": "ZHR_R_IT0015",
+  "transaction_code": "ZHR_R_IT0015",
+  "menu_path": "N/A",
+  "report_description": "Additional Payment & deduction",
+  "desain_report_description": "Program ZHR_R_IT0015 menampilkan data pembayaran dan potongan tambahan karyawan. Program membaca data dari infotype 0001 (Data Pribadi), 0015 (Pembayaran Tambahan), dan 0032 (Nomor Induk Pegawai).  \n\nAlur program:\n1. **Seleksi**: Pengguna dapat memilih jenis upah (lgart) tertentu melalui select-option `s_lgart`.\n2. **Inisialisasi**: Program menginisialisasi periode evaluasi payroll.\n3. **At Selection-Screen**: Program memeriksa apakah proses sedang aktif menggunakan `zab_cl_ricefw=>is_process_active` dan otorisasi pengguna menggunakan `lcl_class=>is_authorized`.\n4. **Start-of-Selection**: Program membuat instance dari kelas lokal `lcl_class` dan memanggil beberapa method:\n    - `get_populate_range_date`: Menentukan rentang tanggal awal dan akhir bulan berdasarkan input pengguna.\n    - `get_additional_data`: Mengambil data tambahan dari tabel T001 (Company Code), TGSBT (Business Area), dan T512T (Wage Type).\n    - `get_data`: Membaca data dari infotype 0001, 0015, dan 0032, lalu menggabungkannya ke dalam tabel internal `lt_hr_report`.\n5. **End-of-Selection**: Program memanggil method:\n    - `process_data`: Memfilter data dalam `lt_hr_report` berdasarkan seleksi jenis upah (lgart) jika ada.\n    - `display_alv`: Menampilkan data dalam ALV Grid.\n\nTabel yang digunakan:\n- T001: Company Code\n- TGSBT: Business Area\n- T512T: Wage Type\n- Infotype 0001: Data Pribadi\n- Infotype 0015: Pembayaran Tambahan\n- Infotype 0032: Nomor Induk Pegawai\n\nOutput:\n- ALV Grid yang menampilkan data pembayaran dan potongan tambahan karyawan, termasuk Company Code, Business Area, Nama Karyawan, Tanggal Mulai, Jenis Upah, Jumlah, dan Mata Uang.",
+  "selection_parameters": [
+    {
+      "name": "S_LGART",
+      "type": "P0015-LGART",
+      "description": "Wage Type",
+      "is_mandatory": false,
+      "is_select_option": true,
+      "has_no_intervals": true,
+      "default_value": null
+    },
+    {
+      "name": "p_ocrsn",
+      "type": "t52ocrt-ocrsn",
+      "description": "Reason for payroll",
+      "is_mandatory": false,
+      "is_select_option": false,
+      "has_no_intervals": false,
+      "default_value": null
+    },
+    {
+      "name": "p_begda",
+      "type": "pa0267-begda",
+      "description": "Off-cycle payroll",
+      "is_mandatory": false,
+      "is_select_option": false,
+      "has_no_intervals": false,
+      "default_value": null
+    },
+    {
+      "name": "s_lgart",
+      "type": "t512t-lgart",
+      "description": "Wage Type",
+      "is_mandatory": false,
+      "is_select_option": true,
+      "has_no_intervals": true,
+      "default_value": null
+    },
+    {
+      "name": "p_ocrsn",
+      "type": "T52OCRT-OCRSN",
+      "description": "Reason for payroll",
+      "is_mandatory": false,
+      "is_select_option": false,
+      "has_no_intervals": false,
+      "default_value": null
+    },
+    {
+      "name": "p_begda",
+      "type": "PA0267-BEGDA",
+      "description": "Off-cycle payroll",
+      "is_mandatory": false,
+      "is_select_option": false,
+      "has_no_intervals": false,
+      "default_value": null
+    },
+    {
+      "name": "s_lgart",
+      "type": "T512T-LGART",
+      "description": "Wage Type",
+      "is_mandatory": false,
+      "is_select_option": true,
+      "has_no_intervals": true,
+      "default_value": null
+    },
+    {
+      "name": "p_ocrsn",
+      "type": "T52OCRT-OCRSN",
+      "description": "Reason for payroll",
+      "is_mandatory": false,
+      "is_select_option": false,
+      "has_no_intervals": false,
+      "default_value": null
+    },
+    {
+      "name": "p_begda",
+      "type": "PA0267-BEGDA",
+      "description": "Off-cycle payroll",
+      "is_mandatory": false,
+      "is_select_option": false,
+      "has_no_intervals": false,
+      "default_value": null
+    },
+    {
+      "name": "s_lgart",
+      "type": "T512T-LGART",
+      "description": "Wage Type",
+      "is_mandatory": false,
+      "is_select_option": true,
+      "has_no_intervals": true,
+      "default_value": null
+    },
+    {
+      "name": "p_ocrsn",
+      "type": "t52ocrt-ocrsn",
+      "description": "Reason for payroll",
+      "is_mandatory": false,
+      "is_select_option": false,
+      "has_no_intervals": false,
+      "default_value": null
+    },
+    {
+      "name": "p_begda",
+      "type": "pa0267-begda",
+      "description": "Off-cycle payroll",
+      "is_mandatory": false,
+      "is_select_option": false,
+      "has_no_intervals": false,
+      "default_value": null
+    },
+    {
+      "name": "s_lgart",
+      "type": "t512t-lgart",
+      "description": "Wage Type",
+      "is_mandatory": false,
+      "is_select_option": true,
+      "has_no_intervals": true,
+      "default_value": null
+    },
+    {
+      "name": "S_LGART",
+      "type": "P0015-LGART",
+      "description": "Wage Type",
+      "is_mandatory": false,
+      "is_select_option": true,
+      "has_no_intervals": true,
+      "default_value": null
+    }
+  ],
+  "field_mappings": [
+    {
+      "display_name": "Co Code",
+      "technical_field": "bukrs",
+      "source_table": "P0001",
+      "processing_logic": "Diisi dengan `p0001-bukrs` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Company",
+      "technical_field": "butxt",
+      "source_table": "T001",
+      "processing_logic": "Diisi dengan `t001-butxt` melalui lookup ke tabel `lt_t001` menggunakan `p0001-bukrs` sebagai key jika `p0015-pernr` tidak kosong.",
+      "processing_type": "LOOKUP",
+      "join_condition": "bukrs = p0001-bukrs",
+      "where_condition": "rcomp = gc_rcomp"
+    },
+    {
+      "display_name": "Bus Area",
+      "technical_field": "gsber",
+      "source_table": "P0001",
+      "processing_logic": "Diisi dengan `p0001-gsber` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Bus Area Desc",
+      "technical_field": "gsber_text",
+      "source_table": "TGSBT",
+      "processing_logic": "Diisi dengan `tgsbt-gtext` melalui lookup ke tabel `lt_tgsbt` menggunakan `p0001-gsber` sebagai key jika `p0015-pernr` tidak kosong.",
+      "processing_type": "LOOKUP",
+      "join_condition": "gsber = p0001-gsber",
+      "where_condition": "spras = 'E'"
+    },
+    {
+      "display_name": "Count",
+      "technical_field": "count",
+      "source_table": "",
+      "processing_logic": "Diisi dengan variabel `lv_no` yang diinisialisasi dengan 1 dan mungkin bertambah di loop selanjutnya (tidak terlihat di kode yang diberikan).",
+      "processing_type": "CALCULATION",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Personnel Number",
+      "technical_field": "pernr",
+      "source_table": "P0001",
+      "processing_logic": "Diisi dengan `p0001-pernr` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Nipeg",
+      "technical_field": "prev_pernr",
+      "source_table": "P0032",
+      "processing_logic": "Diisi dengan `p0032-pnalt` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Name",
+      "technical_field": "name",
+      "source_table": "P0001",
+      "processing_logic": "Diisi dengan `p0001-ename` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Start Dat",
+      "technical_field": "begda",
+      "source_table": "P0015",
+      "processing_logic": "Diisi dengan `p0015-begda` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type",
+      "technical_field": "lgart",
+      "source_table": "P0015",
+      "processing_logic": "Diisi dengan `p0015-lgart` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type",
+      "technical_field": "lgtxt",
+      "source_table": "T512T",
+      "processing_logic": "Diisi dengan `t512t-lgtxt` melalui lookup ke tabel `lt_t512t` menggunakan `p0015-lgart` sebagai key jika `p0015-pernr` tidak kosong.",
+      "processing_type": "LOOKUP",
+      "join_condition": "lgart = p0015-lgart",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Amount",
+      "technical_field": "betrg",
+      "source_table": "P0015",
+      "processing_logic": "Diisi dengan `p0015-betrg` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Crcy",
+      "technical_field": "waers",
+      "source_table": "P0015",
+      "processing_logic": "Diisi dengan `p0015-waers` jika `p0015-pernr` tidak kosong.",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Company Code",
+      "technical_field": "bukrs",
+      "source_table": "PA0001",
+      "processing_logic": "Diambil langsung dari field `bukrs` infotype 0001 (PA0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Company Code Name",
+      "technical_field": "butxt",
+      "source_table": "T001",
+      "processing_logic": "Diambil dari tabel T001 melalui lookup dengan key `bukrs` yang sama dengan `lw_report-bukrs`.",
+      "processing_type": "LOOKUP",
+      "join_condition": "bukrs = lw_report-bukrs",
+      "where_condition": null
+    },
+    {
+      "display_name": "Business Area",
+      "technical_field": "gsber",
+      "source_table": "PA0001",
+      "processing_logic": "Diambil langsung dari field `gsber` infotype 0001 (PA0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Business Area Text",
+      "technical_field": "gtext",
+      "source_table": "TGSBT",
+      "processing_logic": "Diambil dari tabel TGSBT melalui lookup dengan key `gsber` yang sama dengan `lw_report-gsber`.  Lookup ini juga memfilter data dengan `spras = 'E'`.",
+      "processing_type": "LOOKUP",
+      "join_condition": "gsber = lw_report-gsber",
+      "where_condition": "spras = 'E'"
+    },
+    {
+      "display_name": "Count",
+      "technical_field": "count",
+      "source_table": null,
+      "processing_logic": "Diisi dengan konstanta 1 untuk setiap record di PA0267.",
+      "processing_type": "CONSTANT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Personnel Number",
+      "technical_field": "pernr",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `pernr` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Previous Personnel Number",
+      "technical_field": "pnalt",
+      "source_table": "PA0032",
+      "processing_logic": "Diambil langsung dari field `pnalt` infotype 0032 (PA0032).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Employee Name",
+      "technical_field": "ename",
+      "source_table": "PA0001",
+      "processing_logic": "Diambil langsung dari field `ename` infotype 0001 (PA0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Start Date",
+      "technical_field": "begda",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `begda` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type",
+      "technical_field": "lgart",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `lgart` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type Text",
+      "technical_field": "lgtxt",
+      "source_table": "T512T",
+      "processing_logic": "Diambil dari tabel T512T melalui lookup dengan key `lgart` yang sama dengan `lw_report-lgart`. Lookup ini juga memfilter data dengan `sprsl = 'E'` dan `molga = gc_molga`.",
+      "processing_type": "LOOKUP",
+      "join_condition": "lgart = lw_report-lgart",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Wage Type Amount for Payments",
+      "technical_field": "betrg",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `betrg` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Currency",
+      "technical_field": "waers",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `waers` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Reason for Payroll",
+      "technical_field": "ocrsn",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `ocrsn` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Reason for Payroll Text",
+      "technical_field": "ocrtx",
+      "source_table": "T52OCRT",
+      "processing_logic": "Diambil dari tabel T52OCRT melalui lookup dengan key `ocrsn` yang sama dengan `lw_report-ocrsn`. Lookup ini juga memfilter data dengan `sprsl = 'E'` dan `molga = gc_molga`.",
+      "processing_type": "LOOKUP",
+      "join_condition": "ocrsn = lw_report-ocrsn",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Company Code",
+      "technical_field": "bukrs",
+      "source_table": "PA0001",
+      "processing_logic": "Directly assigned from Infotype 0001 (PA0001-bukrs).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Company Code Name",
+      "technical_field": "butxt",
+      "source_table": "T001",
+      "processing_logic": "Retrieved from table T001 based on company code (bukrs).",
+      "processing_type": "LOOKUP",
+      "join_condition": "bukrs = lw_report-bukrs",
+      "where_condition": null
+    },
+    {
+      "display_name": "Business Area",
+      "technical_field": "gsber",
+      "source_table": "PA0001",
+      "processing_logic": "Directly assigned from Infotype 0001 (PA0001-gsber).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Business Area Text",
+      "technical_field": "gtext",
+      "source_table": "TGSBT",
+      "processing_logic": "Retrieved from table TGSBT based on business area (gsber).",
+      "processing_type": "LOOKUP",
+      "join_condition": "gsber = lw_report-gsber",
+      "where_condition": "spras = 'E'"
+    },
+    {
+      "display_name": "Count",
+      "technical_field": "count",
+      "source_table": null,
+      "processing_logic": "Constant value 1 is assigned.",
+      "processing_type": "CONSTANT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Personnel Number",
+      "technical_field": "pernr",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-pernr).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Previous Personnel Number",
+      "technical_field": "pnalt",
+      "source_table": "PA0032",
+      "processing_logic": "Directly assigned from Infotype 0032 (PA0032-pnalt).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Employee Name",
+      "technical_field": "ename",
+      "source_table": "PA0001",
+      "processing_logic": "Directly assigned from Infotype 0001 (PA0001-ename).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Start Date",
+      "technical_field": "begda",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-begda).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type",
+      "technical_field": "lgart",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-lgart).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type Text",
+      "technical_field": "lgtxt",
+      "source_table": "T512T",
+      "processing_logic": "Retrieved from table T512T based on wage type (lgart).",
+      "processing_type": "LOOKUP",
+      "join_condition": "lgart = lw_report-lgart",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Wage Type Amount for Payments",
+      "technical_field": "betrg",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-betrg).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Currency",
+      "technical_field": "waers",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-waers).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Reason for Payroll",
+      "technical_field": "ocrsn",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-ocrsn).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Reason for Payroll Text",
+      "technical_field": "ocrtx",
+      "source_table": "T52OCRT",
+      "processing_logic": "Retrieved from table T52OCRT based on reason (ocrsn).",
+      "processing_type": "LOOKUP",
+      "join_condition": "ocrsn = lw_report-ocrsn",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Company Code",
+      "technical_field": "bukrs",
+      "source_table": "PA0001",
+      "processing_logic": "Diambil langsung dari field `bukrs` infotype 0001 (PA0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Company Code Name",
+      "technical_field": "butxt",
+      "source_table": "T001",
+      "processing_logic": "Diambil dari tabel T001 melalui lookup dengan key `bukrs` yang sama dengan `lw_report-bukrs`.",
+      "processing_type": "LOOKUP",
+      "join_condition": "bukrs = lw_report-bukrs",
+      "where_condition": null
+    },
+    {
+      "display_name": "Business Area",
+      "technical_field": "gsber",
+      "source_table": "PA0001",
+      "processing_logic": "Diambil langsung dari field `gsber` infotype 0001 (PA0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Business Area Text",
+      "technical_field": "gtext",
+      "source_table": "TGSBT",
+      "processing_logic": "Diambil dari tabel TGSBT melalui lookup dengan key `gsber` yang sama dengan `lw_report-gsber` dan `spras = 'E'`",
+      "processing_type": "LOOKUP",
+      "join_condition": "gsber = lw_report-gsber",
+      "where_condition": "spras = 'E'"
+    },
+    {
+      "display_name": "Count",
+      "technical_field": "count",
+      "source_table": null,
+      "processing_logic": "Diisi dengan konstanta 1 untuk setiap record di PA0267.",
+      "processing_type": "CONSTANT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Personnel Number",
+      "technical_field": "pernr",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `pernr` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Previous Personnel Number",
+      "technical_field": "pnalt",
+      "source_table": "PA0032",
+      "processing_logic": "Diambil langsung dari field `pnalt` infotype 0032 (PA0032).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Employee Name",
+      "technical_field": "ename",
+      "source_table": "PA0001",
+      "processing_logic": "Diambil langsung dari field `ename` infotype 0001 (PA0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Start Date",
+      "technical_field": "begda",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `begda` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type",
+      "technical_field": "lgart",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `lgart` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type Text",
+      "technical_field": "lgtxt",
+      "source_table": "T512T",
+      "processing_logic": "Diambil dari tabel T512T melalui lookup dengan key `lgart` yang sama dengan `lw_report-lgart`, `sprsl = 'E'`, dan `molga = gc_molga`.",
+      "processing_type": "LOOKUP",
+      "join_condition": "lgart = lw_report-lgart",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Wage Type Amount for Payments",
+      "technical_field": "betrg",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `betrg` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Currency",
+      "technical_field": "waers",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `waers` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Reason for Payroll",
+      "technical_field": "ocrsn",
+      "source_table": "PA0267",
+      "processing_logic": "Diambil langsung dari field `ocrsn` infotype 0267 (PA0267).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Reason for Payroll Text",
+      "technical_field": "ocrtx",
+      "source_table": "T52OCRT",
+      "processing_logic": "Diambil dari tabel T52OCRT melalui lookup dengan key `ocrsn` yang sama dengan `lw_report-ocrsn`, `sprsl = 'E'`, dan `molga = gc_molga`.",
+      "processing_type": "LOOKUP",
+      "join_condition": "ocrsn = lw_report-ocrsn",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Company Code",
+      "technical_field": "bukrs",
+      "source_table": "PA0001",
+      "processing_logic": "Directly assigned from Infotype 0001 (PA0001-bukrs).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Company Code Name",
+      "technical_field": "butxt",
+      "source_table": "T001",
+      "processing_logic": "Retrieved from table T001 based on company code (bukrs).",
+      "processing_type": "LOOKUP",
+      "join_condition": "bukrs = lw_report-bukrs",
+      "where_condition": null
+    },
+    {
+      "display_name": "Business Area",
+      "technical_field": "gsber",
+      "source_table": "PA0001",
+      "processing_logic": "Directly assigned from Infotype 0001 (PA0001-gsber).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Business Area Text",
+      "technical_field": "gtext",
+      "source_table": "TGSBT",
+      "processing_logic": "Retrieved from table TGSBT based on business area (gsber).",
+      "processing_type": "LOOKUP",
+      "join_condition": "gsber = lw_report-gsber",
+      "where_condition": "spras = 'E'"
+    },
+    {
+      "display_name": "Count",
+      "technical_field": "count",
+      "source_table": null,
+      "processing_logic": "Constant value of 1 is assigned.",
+      "processing_type": "CONSTANT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Personnel Number",
+      "technical_field": "pernr",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-pernr).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Previous Personnel Number",
+      "technical_field": "pnalt",
+      "source_table": "PA0032",
+      "processing_logic": "Directly assigned from Infotype 0032 (PA0032-pnalt).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Employee Name",
+      "technical_field": "ename",
+      "source_table": "PA0001",
+      "processing_logic": "Directly assigned from Infotype 0001 (PA0001-ename).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Start Date",
+      "technical_field": "begda",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-begda).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type",
+      "technical_field": "lgart",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-lgart).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type Text",
+      "technical_field": "lgtxt",
+      "source_table": "T512T",
+      "processing_logic": "Retrieved from table T512T based on wage type (lgart).",
+      "processing_type": "LOOKUP",
+      "join_condition": "lgart = lw_report-lgart",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Wage Type Amount for Payments",
+      "technical_field": "betrg",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-betrg).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Currency",
+      "technical_field": "waers",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-waers).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Reason for Payroll",
+      "technical_field": "ocrsn",
+      "source_table": "PA0267",
+      "processing_logic": "Directly assigned from Infotype 0267 (PA0267-ocrsn).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Reason for Payroll Text",
+      "technical_field": "ocrtx",
+      "source_table": "T52OCRT",
+      "processing_logic": "Retrieved from table T52OCRT based on reason (ocrsn).",
+      "processing_type": "LOOKUP",
+      "join_condition": "ocrsn = lw_report-ocrsn",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Co Code",
+      "technical_field": "bukrs",
+      "source_table": "P0001",
+      "processing_logic": "Diambil langsung dari field `bukrs` pada infotype 0001 (P0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Company",
+      "technical_field": "butxt",
+      "source_table": "T001",
+      "processing_logic": "Diambil dari field `butxt` tabel `T001` berdasarkan lookup dengan `bukrs` dari infotype 0001 (P0001).",
+      "processing_type": "LOOKUP",
+      "join_condition": "bukrs = p0001-bukrs",
+      "where_condition": "rcomp = gc_rcomp"
+    },
+    {
+      "display_name": "Bus Area",
+      "technical_field": "gsber",
+      "source_table": "P0001",
+      "processing_logic": "Diambil langsung dari field `gsber` pada infotype 0001 (P0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Bus Area Desc",
+      "technical_field": "gsber_text",
+      "source_table": "TGSBT",
+      "processing_logic": "Diambil dari field `gtext` tabel `TGSBT` berdasarkan lookup dengan `gsber` dari infotype 0001 (P0001).",
+      "processing_type": "LOOKUP",
+      "join_condition": "gsber = p0001-gsber",
+      "where_condition": "spras = 'E'"
+    },
+    {
+      "display_name": "Count",
+      "technical_field": "count",
+      "source_table": null,
+      "processing_logic": "Diisi dengan variabel `lv_no` yang diinisialisasi dengan nilai 1 dan kemungkinan bertambah dalam loop (tidak terlihat dalam kode yang diberikan).",
+      "processing_type": "CALCULATION",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Personnel Number",
+      "technical_field": "pernr",
+      "source_table": "P0001",
+      "processing_logic": "Diambil langsung dari field `pernr` pada infotype 0001 (P0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Nipeg",
+      "technical_field": "prev_pernr",
+      "source_table": "P0032",
+      "processing_logic": "Diambil langsung dari field `pnalt` pada infotype 0032 (P0032).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Name",
+      "technical_field": "name",
+      "source_table": "P0001",
+      "processing_logic": "Diambil langsung dari field `ename` pada infotype 0001 (P0001).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Start Dat",
+      "technical_field": "begda",
+      "source_table": "P0015",
+      "processing_logic": "Diambil langsung dari field `begda` pada infotype 0015 (P0015).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type",
+      "technical_field": "lgart",
+      "source_table": "P0015",
+      "processing_logic": "Diambil langsung dari field `lgart` pada infotype 0015 (P0015).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Wage Type",
+      "technical_field": "lgtxt",
+      "source_table": "T512T",
+      "processing_logic": "Diambil dari field `lgtxt` tabel `T512T` berdasarkan lookup dengan `lgart` dari infotype 0015 (P0015).",
+      "processing_type": "LOOKUP",
+      "join_condition": "lgart = p0015-lgart",
+      "where_condition": "sprsl = 'E' AND molga = gc_molga"
+    },
+    {
+      "display_name": "Amount",
+      "technical_field": "betrg",
+      "source_table": "P0015",
+      "processing_logic": "Diambil langsung dari field `betrg` pada infotype 0015 (P0015).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    },
+    {
+      "display_name": "Crcy",
+      "technical_field": "waers",
+      "source_table": "P0015",
+      "processing_logic": "Diambil langsung dari field `waers` pada infotype 0015 (P0015).",
+      "processing_type": "DIRECT",
+      "join_condition": null,
+      "where_condition": null
+    }
+  ],
+  "validation_rules": [
+    "**Validasi Otorisasi Pengguna**: Pengguna harus memiliki otorisasi yang sesuai untuk menjalankan program ini.  Otorisasi diperiksa menggunakan parameter `ZP_SUPPORT_PAYROLL`.  Jika pengguna tidak memiliki otorisasi, program akan menampilkan pesan kesalahan dan berhenti.",
+    "**Validasi Proses Aktif**: Program memeriksa apakah proses dengan ID `RHR006_01` sedang aktif. Jika tidak aktif, program akan menampilkan pesan kesalahan.",
+    "**Validasi Jenis Upah (s_lgart)**:  Data yang ditampilkan difilter berdasarkan jenis upah yang dimasukkan oleh pengguna melalui parameter seleksi `s_lgart`. Jika pengguna memasukkan jenis upah, hanya data dengan jenis upah yang sesuai yang akan ditampilkan.",
+    "**Validasi Data Karyawan (p0015-pernr)**: Program memeriksa apakah nomor karyawan ada di infotype 0015 (Tambahan Pembayaran). Jika tidak ada, data karyawan tersebut tidak akan diproses dan ditampilkan di ALV.",
+    "Jika parameter `s_lgart` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `lgart` yang sesuai dengan nilai yang ada di `s_lgart`.",
+    "Jika parameter `p_ocrsn` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `ocrsn` yang sama dengan nilai `p_ocrsn`.",
+    "Jika parameter `p_begda` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `begda` lebih besar dari nilai `p_begda`.",
+    "Jika parameter `s_lgart` diisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `lgart` yang sesuai dengan yang dipilih di `s_lgart`.",
+    "Jika parameter `p_ocrsn` diisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `ocrsn` yang sama dengan nilai `p_ocrsn`.",
+    "Jika parameter `p_begda` diisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `begda` lebih besar dari nilai `p_begda`.",
+    "Jika parameter `s_lgart` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `lgart` yang sesuai dengan `s_lgart`.",
+    "Jika parameter `p_ocrsn` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `ocrsn` yang sama dengan `p_ocrsn`.",
+    "Jika parameter `p_begda` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `begda` lebih besar dari `p_begda`.",
+    "Jika parameter `s_lgart` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `lgart` yang sesuai dengan yang ada di `s_lgart`.",
+    "Jika parameter `p_ocrsn` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `ocrsn` yang sama dengan `p_ocrsn`.",
+    "Jika parameter `p_begda` terisi, data pada `gt_report` akan difilter untuk hanya menampilkan data dengan `begda` lebih besar dari `p_begda`.",
+    "**Validasi Otorisasi Pengguna:**\n\n- Sebelum eksekusi program, dilakukan validasi otorisasi pengguna. \n- Program memanggil method `lcl_class=>is_authorized()`.\n- Method ini mengambil nilai parameter `ZP_SUPPORT_PAYROLL` menggunakan `zcl_tvarv=>get_selectopt_value`.\n- Nilai parameter tersebut dibandingkan dengan username yang sedang login (`sy-uname`).\n- Jika username tidak memiliki otorisasi, program akan menampilkan pesan error dan berhenti.\n\n**Validasi Proses Aktif:**\n\n- Program memeriksa apakah proses dengan ID `RHR006_01` sedang aktif menggunakan fungsi `zab_cl_ricefw=>is_process_active`. \n- Jika proses tidak aktif, program akan menampilkan pesan error.\n\n**Validasi Data Infotype 0015:**\n\n- Program memeriksa apakah data karyawan ada di infotype 0015 (`p0015-pernr IS NOT INITIAL`).\n- Jika data tidak ada, data karyawan tersebut tidak akan diproses dan tidak ditampilkan di ALV.\n\n**Filter Seleksi Jenis Upah (Wage Type):**\n\n- Data yang ditampilkan di ALV dapat difilter berdasarkan jenis upah (wage type) melalui parameter seleksi `s_lgart`.\n- Jika parameter `s_lgart` diisi, program akan menghapus data dari tabel internal `lt_hr_report` yang jenis upahnya tidak sesuai dengan nilai yang diinputkan pada parameter `s_lgart`."
+  ],
+  "special_processing": {},
+  "valid_dataset_rules": [
+    {
+      "data": "P0000",
+      "condition": "Tidak ada kondisi validasi eksplisit untuk infotype 0000 selain pembacaan data menggunakan `rp_read_infotype` dan `rp_provide_from_last` dalam method `get_infotype_0001`. Periode data yang dibaca ditentukan oleh `pn-begda` dan `pn-endda`."
+    },
+    {
+      "data": "P0001",
+      "condition": "Tidak ada kondisi validasi eksplisit untuk infotype 0001 selain pembacaan data menggunakan `rp_read_infotype` dan `rp_provide_from_last` dalam method `get_infotype_0001`. Periode data yang dibaca ditentukan oleh `pn-begda` dan `pn-endda`. Data `bukrs` dan `gsber` dari infotype ini digunakan untuk membaca data dari tabel `t001` dan `tgsbt`."
+    },
+    {
+      "data": "P0014",
+      "condition": "Tidak ada kondisi validasi eksplisit untuk infotype 0014. Infotype ini dideklarasikan tetapi tidak dibaca atau digunakan dalam kode program."
+    },
+    {
+      "data": "P0015",
+      "condition": "Data infotype 0015 dibaca menggunakan `rp_read_infotype` dan `rp_provide_from_last` dalam method `get_infotype_0015`. Periode data yang dibaca ditentukan oleh `pn-begda` dan `pn-endda`.  Data `lgart` dari infotype ini digunakan untuk membaca data dari tabel `t512t` dan juga difilter berdasarkan select-option `s_lgart` pada selection screen di method `process_data`. Jika `s_lgart` diisi, data pada `lt_hr_report` yang `lgart` nya tidak ada di `s_lgart` akan dihapus."
+    },
+    {
+      "data": "P0032",
+      "condition": "Tidak ada kondisi validasi eksplisit untuk infotype 0032 selain pembacaan data menggunakan `rp_read_infotype` dan `rp_provide_from_last` dalam method `get_infotype_0032`. Periode data yang dibaca ditentukan oleh `pn-begda` dan `pn-endda`. Data `pnalt` dari infotype ini digunakan untuk mengisi field `prev_pernr` pada `lt_hr_report`."
+    },
+    {
+      "data": "lt_hr_report",
+      "condition": "Data dalam tabel internal ini diisi berdasarkan data dari infotype 0001, 0015, dan 0032. Field `lgart` pada tabel ini difilter berdasarkan select-option `s_lgart` pada selection screen. Jika `s_lgart` terisi, baris data dengan `lgart` yang tidak ada di `s_lgart` akan dihapus dari tabel `lt_hr_report`."
+    },
+    {
+      "data": "P0001",
+      "condition": "Data Infotype 0001 dibaca untuk setiap karyawan (PERNR) yang ada pada tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh  `gv_begda` dan `gv_endda`.  Tidak ada validasi eksplisit pada data P0001 selain memastikan data tersebut ada dalam rentang periode yang ditentukan."
+    },
+    {
+      "data": "P0032",
+      "condition": "Data Infotype 0032 dibaca untuk setiap karyawan (PERNR) yang ada pada tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh `gv_begda` dan `gv_endda`. Tidak ada validasi eksplisit pada data P0032 selain memastikan data tersebut ada dalam rentang periode yang ditentukan."
+    },
+    {
+      "data": "P0267",
+      "condition": "Data Infotype 0267 dibaca untuk setiap karyawan (PERNR) yang ada pada tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh `gv_begda` dan `gv_endda`. Data P0267 difilter berdasarkan parameter selection screen `s_lgart`, `p_ocrsn`, dan `p_begda`.  \n- Jika `s_lgart` diisi, data P0267 yang `lgart`-nya tidak ada di `s_lgart` akan dihapus.\n- Jika `p_ocrsn` diisi, data P0267 yang `ocrsn`-nya tidak sama dengan `p_ocrsn` akan dihapus.\n- Jika `p_begda` diisi, data P0267 yang `begda`-nya kurang dari atau sama dengan `p_begda` akan dihapus."
+    },
+    {
+      "data": "P0001",
+      "condition": "Data P0001 dibaca berdasarkan pernr dan range tanggal yang dihitung di method f_populate_range_date. Tidak ada validasi eksplisit selain memastikan pernr ada."
+    },
+    {
+      "data": "P0032",
+      "condition": "Data P0032 dibaca berdasarkan pernr dan range tanggal yang sama seperti P0001. Tidak ada validasi eksplisit."
+    },
+    {
+      "data": "P0267",
+      "condition": "Data P0267 dibaca berdasarkan pernr dan range tanggal yang sama seperti P0001. Data dianggap valid jika memenuhi kriteria pada selection screen (s_lgart, p_ocrsn, p_begda).  \n- `DELETE gt_report WHERE lgart NOT IN s_lgart.` : Data dihapus jika lgart tidak ada di selection screen s_lgart.\n- `DELETE gt_report WHERE ocrsn NE p_ocrsn.` : Data dihapus jika ocrsn tidak sama dengan p_ocrsn yang dipilih di selection screen.\n- `DELETE gt_report WHERE begda LE p_begda.` : Data dihapus jika begda kurang dari atau sama dengan p_begda yang dipilih di selection screen."
+    },
+    {
+      "data": "T001",
+      "condition": "Tidak ada validasi khusus. Data dibaca seluruhnya dan disimpan di internal table gt_t001."
+    },
+    {
+      "data": "TGSBT",
+      "condition": "Tidak ada validasi khusus. Data dibaca dengan filter spras = 'E' dan disimpan di internal table gt_tgsbt."
+    },
+    {
+      "data": "T512T",
+      "condition": "Tidak ada validasi khusus. Data dibaca dengan filter sprsl = 'E' dan molga = gc_molga dan disimpan di internal table gt_t512t."
+    },
+    {
+      "data": "T52OCRT",
+      "condition": "Tidak ada validasi khusus. Data dibaca dengan filter sprsl = 'E' dan molga = gc_molga dan disimpan di internal table gt_t52ocrt."
+    },
+    {
+      "data": "P0001",
+      "condition": "Data Infotype 0001 dibaca untuk setiap karyawan (PERNR) yang ada di tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh  `gv_begda` dan `gv_endda`.  Tidak ada validasi eksplisit untuk data P0001 selain memastikan data tersebut ada dalam rentang periode yang ditentukan."
+    },
+    {
+      "data": "P0032",
+      "condition": "Data Infotype 0032 dibaca untuk setiap karyawan (PERNR) yang ada di tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh `gv_begda` dan `gv_endda`. Tidak ada validasi eksplisit untuk data P0032 selain memastikan data tersebut ada dalam rentang periode yang ditentukan."
+    },
+    {
+      "data": "P0267",
+      "condition": "Data Infotype 0267 dibaca untuk setiap karyawan (PERNR) yang ada di tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh `gv_begda` dan `gv_endda`. Data P0267 difilter berdasarkan parameter selection screen `s_lgart`, `p_ocrsn`, dan `p_begda`.  \n- Jika `s_lgart` diisi, data P0267 yang `lgart`-nya tidak ada di `s_lgart` akan dihapus.\n- Jika `p_ocrsn` diisi, data P0267 yang `ocrsn`-nya tidak sama dengan `p_ocrsn` akan dihapus.\n- Jika `p_begda` diisi, data P0267 yang `begda`-nya kurang dari atau sama dengan `p_begda` akan dihapus."
+    },
+    {
+      "data": "P0001",
+      "condition": "Data Infotype 0001 dibaca untuk setiap karyawan (PERNR) yang ada pada tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh  `gv_begda` dan `gv_endda`.  Tidak ada validasi eksplisit pada data P0001 selain memastikan data tersebut ada dalam rentang periode yang ditentukan."
+    },
+    {
+      "data": "P0032",
+      "condition": "Data Infotype 0032 dibaca untuk setiap karyawan (PERNR) yang ada pada tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh `gv_begda` dan `gv_endda`. Tidak ada validasi eksplisit pada data P0032 selain memastikan data tersebut ada dalam rentang periode yang ditentukan."
+    },
+    {
+      "data": "P0267",
+      "condition": "Data Infotype 0267 dibaca untuk setiap karyawan (PERNR) yang ada pada tabel PERAS. Pembacaan dilakukan berdasarkan periode yang ditentukan oleh `gv_begda` dan `gv_endda`. Data P0267 difilter berdasarkan parameter selection screen `s_lgart`, `p_ocrsn`, dan `p_begda`.  \n- Jika `s_lgart` diisi, data P0267 yang `lgart`-nya tidak ada di `s_lgart` akan dihapus.\n- Jika `p_ocrsn` diisi, data P0267 yang `ocrsn`-nya tidak sama dengan `p_ocrsn` akan dihapus.\n- Jika `p_begda` diisi, data P0267 yang `begda`-nya kurang dari atau sama dengan `p_begda` akan dihapus."
+    },
+    {
+      "data": "P0000",
+      "condition": "Tidak ada kondisi validasi khusus yang diterapkan pada infotype 0000 selain pembacaan data dalam mode 'N'."
+    },
+    {
+      "data": "P0001",
+      "condition": "Tidak ada kondisi validasi khusus yang diterapkan pada infotype 0001 selain pembacaan data dalam mode 'N'. Field `bukrs` dan `gsber` dari infotype 0001 digunakan untuk membaca data dari tabel `T001` dan `TGSBT`."
+    },
+    {
+      "data": "P0014",
+      "condition": "Tidak ada kondisi validasi khusus yang diterapkan pada infotype 0014 selain pembacaan data dalam mode 'N'."
+    },
+    {
+      "data": "P0015",
+      "condition": "Data infotype 0015 difilter berdasarkan seleksi  `s_lgart` (Wage Type) yang diinputkan oleh pengguna. Jika  `s_lgart` tidak kosong, data P0015 yang memiliki  `lgart`  tidak termasuk dalam seleksi akan dihapus dari tabel internal  `lt_hr_report`."
+    },
+    {
+      "data": "P0032",
+      "condition": "Tidak ada kondisi validasi khusus yang diterapkan pada infotype 0032 selain pembacaan data dalam mode 'N'. Field  `pnalt` dari infotype 0032 digunakan untuk mengisi field  `prev_pernr` pada tabel internal  `lt_hr_report`."
+    },
+    {
+      "data": "lt_hr_report",
+      "condition": "Tabel  `lt_hr_report`  diisi dengan data dari infotype 0001, 0015, dan 0032. Data dalam tabel ini kemudian difilter berdasarkan  `s_lgart`  yang diinputkan oleh pengguna melalui selection screen."
+    }
+  ],
+  "country_info": [
+    {
+      "data": "BUTXT",
+      "condition": "Ambil BUTXT dari tabel T001 berdasarkan key BUKRS yang sama dengan P0001-BUKRS. Lookup dilakukan menggunakan BINARY SEARCH. Jika sy-subrc sama dengan 0 (berhasil), nilai BUTXT akan di-assign ke LW_RESULT-BUTXT."
+    },
+    {
+      "data": "BUTXT",
+      "condition": "Ambil BUTXT dari tabel T001 dengan key BUKRS = p0001-bukrs. Jika sy-subrc = 0, isi field butxt dengan hasil lookup."
+    },
+    {
+      "data": "BUTXT",
+      "condition": "Ambil BUTXT dari tabel T001 dengan key BUKRS = p0001-bukrs. Jika sy-subrc = 0, isi field butxt dengan hasil lookup."
+    },
+    {
+      "data": "BUTXT",
+      "condition": "Ambil BUTXT dari tabel T001 dengan key BUKRS = p0001-bukrs. Jika sy-subrc = 0, isi field butxt dengan hasil lookup."
+    },
+    {
+      "data": "BUTXT",
+      "condition": "Ambil BUTXT dari tabel T001 dengan key BUKRS = lw_report-bukrs. Jika sy-subrc = 0, isi field butxt dengan hasil lookup."
+    },
+    {
+      "data": "BUTXT",
+      "condition": "Ambil BUTXT dari tabel T001 dengan key BUKRS = P0001-BUKRS. Jika sy-subrc = 0, isi field butxt dengan hasil lookup."
+    }
+  ],
+  "currency_t500c": [
+    {
+      "data": "GTEXT",
+      "condition": "Ambil GTEXT dari tabel TGSBT berdasarkan key GSBER yang sama dengan P0001-GSBER. Lookup dilakukan menggunakan BINARY SEARCH. Jika sy-subrc sama dengan 0 (berhasil), nilai GTEXT akan di-assign ke LW_RESULT-GSBER_TEXT."
+    },
+    {
+      "data": "GTEXT",
+      "condition": "Ambil GTEXT dari tabel TGSBT dengan key GSBER = p0001-gsber. Jika sy-subrc = 0, isi field gtext dengan hasil lookup."
+    },
+    {
+      "data": "GTEXT",
+      "condition": "Ambil GTEXT dari tabel TGSBT dengan key GSBER = p0001-gsber. Jika sy-subrc = 0, isi field gtext dengan hasil lookup."
+    },
+    {
+      "data": "GTEXT",
+      "condition": "Ambil GTEXT dari tabel TGSBT dengan key GSBER = p0001-gsber. Jika sy-subrc = 0, isi field gtext dengan hasil lookup."
+    },
+    {
+      "data": "GTEXT",
+      "condition": "Ambil GTEXT dari tabel TGSBT dengan key GSBER = lw_report-gsber. Jika sy-subrc = 0, isi field gtext dengan hasil lookup."
+    },
+    {
+      "data": "GTEXT",
+      "condition": "Ambil GTEXT dari tabel TGSBT dengan key GSBER = P0001-GSBER. Jika sy-subrc = 0, isi field gsber_text dengan hasil lookup."
+    }
+  ],
+  "currency_t001": [
+    {
+      "data": "LGTXT",
+      "condition": "Ambil LGTXT dari tabel T512T berdasarkan key LGART yang sama dengan P0015-LGART. Lookup dilakukan menggunakan BINARY SEARCH. Jika sy-subrc sama dengan 0 (berhasil), nilai LGTXT akan di-assign ke LW_RESULT-LGTXT."
+    },
+    {
+      "data": "LGTXT",
+      "condition": "Ambil LGTXT dari tabel T512T dengan key LGART = p0267-lgart. Jika sy-subrc = 0, isi field lgtxt dengan hasil lookup."
+    },
+    {
+      "data": "OCRTX",
+      "condition": "Ambil OCRTX dari tabel T52OCRT dengan key OCRSN = p0267-ocrsn. Jika sy-subrc = 0, isi field ocrtx dengan hasil lookup."
+    },
+    {
+      "data": "LGTXT",
+      "condition": "Ambil LGTXT dari tabel T512T dengan key LGART = p0267-lgart. Jika sy-subrc = 0, isi field lgtxt dengan hasil lookup."
+    },
+    {
+      "data": "OCRTX",
+      "condition": "Ambil OCRTX dari tabel T52OCRT dengan key OCRSN = p0267-ocrsn. Jika sy-subrc = 0, isi field ocrtx dengan hasil lookup."
+    },
+    {
+      "data": "LGTXT",
+      "condition": "Ambil LGTXT dari tabel T512T dengan key LGART = p0267-lgart. Jika sy-subrc = 0, isi field lgtxt dengan hasil lookup."
+    },
+    {
+      "data": "OCRTX",
+      "condition": "Ambil OCRTX dari tabel T52OCRT dengan key OCRSN = p0267-ocrsn. Jika sy-subrc = 0, isi field ocrtx dengan hasil lookup."
+    },
+    {
+      "data": "LGTXT",
+      "condition": "Ambil LGTXT dari tabel T512T dengan key LGART = lw_report-lgart. Jika sy-subrc = 0, isi field lgtxt dengan hasil lookup."
+    },
+    {
+      "data": "OCRTX",
+      "condition": "Ambil OCRTX dari tabel T52OCRT dengan key OCRSN = lw_report-ocrsn. Jika sy-subrc = 0, isi field ocrtx dengan hasil lookup."
+    },
+    {
+      "data": "LGTXT",
+      "condition": "Ambil LGTXT dari tabel T512T dengan key LGART = P0015-LGART. Jika sy-subrc = 0, isi field lgtxt dengan hasil lookup."
+    }
+  ],
+  "authorization_objects": [],
+  "user_roles": [
+    "ZP_SUPPORT_PAYROLL",
+    "ZP_SUPPORT_PAYROLL"
+  ],
+  "constraints": [],
+  "dependencies": [],
+  "error_scenarios": [
+    {
+      "error_description": "Proses dengan ID RHR006_01 sedang aktif.",
+      "resolution": "Tunggu hingga proses selesai atau hubungi administrator.",
+      "error_code": "E017",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "User tidak memiliki otorisasi untuk menjalankan program ZPQ_IT0015.",
+      "resolution": "Hubungi administrator untuk mendapatkan otorisasi yang dibutuhkan.",
+      "error_code": "I172",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Error saat mengambil nilai select-option ZP_SUPPORT_PAYROLL.",
+      "resolution": "Periksa konfigurasi select-option atau hubungi administrator.",
+      "error_code": null,
+      "severity": "INFO"
+    },
+    {
+      "error_description": "Tanggal input tidak valid.",
+      "resolution": "Periksa kembali tanggal yang diinput dan pastikan formatnya YYYYMMDD.",
+      "error_code": null,
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Tanggal input tidak valid.",
+      "resolution": "Periksa kembali tanggal input dan pastikan formatnya YYYYMMDD.",
+      "error_code": "day_in_no_date",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Error tidak diketahui saat menentukan tanggal akhir bulan.",
+      "resolution": "Periksa kembali input tanggal dan log sistem untuk detail lebih lanjut.",
+      "error_code": "OTHERS",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Proses RHR018_01 sedang aktif.",
+      "resolution": "Tunggu hingga proses RHR018_01 selesai sebelum menjalankan program ini.",
+      "error_code": "e017",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Tabel gt_report kosong.",
+      "resolution": "Periksa kriteria seleksi dan data infotype terkait untuk memastikan data yang valid ada.",
+      "error_code": "TEXT-m01",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Tanggal input pada parameter p_begda bukanlah tanggal yang valid.",
+      "resolution": "Pastikan bahwa nilai yang dimasukkan ke dalam parameter p_begda adalah tanggal yang valid dalam format YYYYMMDD.",
+      "error_code": "day_in_no_date",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Error yang tidak diketahui saat menentukan hari terakhir dari bulan.",
+      "resolution": "Periksa kembali log sistem untuk mendapatkan informasi lebih lanjut tentang kesalahan yang terjadi dan perbaiki sesuai dengan pesan kesalahan yang ditampilkan.",
+      "error_code": "OTHERS",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Proses RHR018_01 sedang aktif.",
+      "resolution": "Tunggu hingga proses RHR018_01 selesai sebelum menjalankan program ini.",
+      "error_code": "e017",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Tabel gt_report kosong setelah validasi.",
+      "resolution": "Periksa kriteria seleksi yang dimasukkan (s_lgart, p_ocrsn, p_begda) dan data infotype 0267 untuk memastikan data yang sesuai ada dan memenuhi kriteria.",
+      "error_code": "TEXT-m01",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Tanggal input pada parameter p_begda bukan tanggal yang valid.",
+      "resolution": "Pastikan format tanggal pada parameter p_begda valid (YYYYMMDD).",
+      "error_code": "day_in_no_date",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Error tidak terdefinisi saat menentukan hari terakhir dalam sebulan.",
+      "resolution": "Periksa kembali input tanggal dan log sistem untuk informasi lebih lanjut.",
+      "error_code": "OTHERS",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Proses RHR018_01 sedang aktif.",
+      "resolution": "Tunggu hingga proses RHR018_01 selesai sebelum menjalankan program ini.",
+      "error_code": "e017",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Tabel gt_report kosong setelah validasi.",
+      "resolution": "Periksa kriteria seleksi yang dimasukkan (s_lgart, p_ocrsn, p_begda) dan data infotype terkait (0267, 0001, 0032) untuk memastikan data yang sesuai ada.",
+      "error_code": "TEXT-m01",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Tanggal input pada parameter p_begda bukan tanggal yang valid.",
+      "resolution": "Pastikan tanggal yang diinput pada parameter p_begda adalah tanggal yang valid.",
+      "error_code": "day_in_no_date",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Error tidak terdefinisi saat menentukan hari terakhir dalam sebulan.",
+      "resolution": "Periksa kembali input tanggal dan pastikan formatnya benar.  Periksa juga dokumentasi fungsi 'RP_LAST_DAY_OF_MONTHS' untuk kemungkinan error lain.",
+      "error_code": "",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Proses RHR018_01 sedang aktif.",
+      "resolution": "Tunggu hingga proses RHR018_01 selesai sebelum menjalankan program ini.",
+      "error_code": "e017",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Tabel gt_report kosong setelah validasi.",
+      "resolution": "Periksa kriteria seleksi yang diinputkan. Pastikan data yang sesuai dengan kriteria seleksi ada di dalam sistem.",
+      "error_code": "",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Proses dengan ID RHR006_01 sedang aktif",
+      "resolution": "Tunggu hingga proses selesai atau hubungi administrator",
+      "error_code": "E017",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "User tidak memiliki otorisasi untuk menjalankan program ZPQ_IT0015",
+      "resolution": "Hubungi administrator untuk mendapatkan otorisasi yang diperlukan.",
+      "error_code": "I172",
+      "severity": "ERROR"
+    },
+    {
+      "error_description": "Gagal membaca data dari ZCL_TVARV dengan nama ZP_SUPPORT_PAYROLL",
+      "resolution": "Periksa konfigurasi tabel TVARV atau hubungi administrator.",
+      "error_code": null,
+      "severity": "INFO"
+    },
+    {
+      "error_description": "Tanggal input tidak valid",
+      "resolution": "Periksa kembali tanggal input dan pastikan formatnya benar.",
+      "error_code": null,
+      "severity": "ERROR"
+    }
+  ],
+  "test_scenarios": [
+    {
+      "condition": "Karyawan dengan data infotype 0015 ada dan wage type sesuai dengan selection screen.",
+      "expected_result": "Data karyawan ditampilkan di ALV dengan informasi yang benar seperti Company Code, Business Area, Wage Type, Amount, dan Currency.",
+      "test_data": "Buat data infotype 0015 untuk karyawan tertentu dengan beberapa wage type. Di selection screen, masukkan salah satu wage type yang ada di data infotype 0015 karyawan tersebut.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Karyawan dengan data infotype 0015 ada, tetapi wage type tidak sesuai dengan selection screen.",
+      "expected_result": "Data karyawan tidak ditampilkan di ALV.",
+      "test_data": "Buat data infotype 0015 untuk karyawan tertentu. Di selection screen, masukkan wage type yang tidak ada di data infotype 0015 karyawan tersebut.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Karyawan tidak memiliki data infotype 0015.",
+      "expected_result": "Data karyawan tidak ditampilkan di ALV.",
+      "test_data": "Jangan buat data infotype 0015 untuk karyawan tertentu.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Selection screen untuk wage type dikosongkan.",
+      "expected_result": "Semua data karyawan yang memiliki infotype 0015 ditampilkan di ALV.",
+      "test_data": "Buat data infotype 0015 untuk beberapa karyawan dengan beberapa wage type. Kosongkan selection screen untuk wage type.",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Input wage type di selection screen dengan huruf kapital dan huruf kecil.",
+      "expected_result": "Hasilnya harus sama, tidak terpengaruh oleh penggunaan huruf kapital atau huruf kecil.",
+      "test_data": "Masukkan wage type di selection screen dengan huruf kapital, lalu ulangi dengan huruf kecil.",
+      "priority": "LOW"
+    },
+    {
+      "condition": "Input data infotype 0015 dengan amount yang sangat besar (mendekati batas maksimum).",
+      "expected_result": "Data ditampilkan dengan benar di ALV tanpa error.",
+      "test_data": "Buat data infotype 0015 dengan amount yang sangat besar.",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Input data infotype 0015 dengan amount nol.",
+      "expected_result": "Data ditampilkan dengan benar di ALV dengan amount nol.",
+      "test_data": "Buat data infotype 0015 dengan amount nol.",
+      "priority": "LOW"
+    },
+    {
+      "condition": "Pengujian performa dengan data karyawan yang banyak (misalnya 10.000 karyawan).",
+      "expected_result": "Report berjalan dengan performa yang wajar (misalnya, waktu eksekusi kurang dari 1 menit).",
+      "test_data": "Buat data infotype 0015 untuk 10.000 karyawan.",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "User tidak memiliki otorisasi untuk menjalankan report (ZP_SUPPORT_PAYROLL).",
+      "expected_result": "Pesan error ditampilkan dan report tidak dijalankan.",
+      "test_data": "Jalankan report dengan user yang tidak memiliki otorisasi ZP_SUPPORT_PAYROLL.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "User memiliki otorisasi untuk menjalankan report (ZP_SUPPORT_PAYROLL).",
+      "expected_result": "Report berjalan dengan normal.",
+      "test_data": "Jalankan report dengan user yang memiliki otorisasi ZP_SUPPORT_PAYROLL.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan input data yang valid dan lengkap.",
+      "expected_result": "Laporan ALV ditampilkan dengan data sesuai kriteria seleksi.",
+      "test_data": {
+        "p_ocrsn": "A",
+        "p_begda": "20230101",
+        "s_lgart-low": "1000",
+        "s_lgart-high": "",
+        "peras-pernr": "10000000"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_ocrsn diisi dan parameter lainnya kosong.",
+      "expected_result": "Laporan ALV ditampilkan dengan data difilter berdasarkan p_ocrsn.",
+      "test_data": {
+        "p_ocrsn": "B",
+        "p_begda": "",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "10000001"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan parameter s_lgart diisi dan parameter lainnya kosong.",
+      "expected_result": "Laporan ALV ditampilkan dengan data difilter berdasarkan s_lgart.",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "",
+        "s_lgart-low": "1100",
+        "s_lgart-high": "",
+        "peras-pernr": "10000002"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_begda diisi dan parameter lainnya kosong.",
+      "expected_result": "Laporan ALV ditampilkan dengan data difilter berdasarkan p_begda.",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "20230201",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "10000003"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan seluruh parameter seleksi kosong.",
+      "expected_result": "Laporan ALV ditampilkan dengan semua data dari infotype 0267 sesuai range tanggal yang dihitung.",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "10000004"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan input data yang tidak valid pada p_begda (format tanggal salah).",
+      "expected_result": "Program menampilkan pesan error.",
+      "test_data": {
+        "p_ocrsn": "A",
+        "p_begda": "20230132",
+        "s_lgart-low": "1000",
+        "s_lgart-high": "",
+        "peras-pernr": "10000005"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan data tidak ditemukan pada infotype 0267.",
+      "expected_result": "Laporan ALV kosong dan menampilkan pesan error TEXT-m01.",
+      "test_data": {
+        "p_ocrsn": "Z",
+        "p_begda": "99991231",
+        "s_lgart-low": "9999",
+        "s_lgart-high": "",
+        "peras-pernr": "10000006"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian performa dengan data yang sangat banyak pada infotype 0267.",
+      "expected_result": "Laporan ALV ditampilkan dalam waktu yang wajar.",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "10000007"
+      },
+      "priority": "LOW"
+    },
+    {
+      "condition": "Pengujian dengan parameter s_lgart terisi dan p_ocrsn, p_begda kosong.",
+      "expected_result": "Data yang ditampilkan hanya data yang memiliki lgart sesuai dengan yang diinput pada s_lgart.",
+      "test_data": "s_lgart = 1000, p_ocrsn = kosong, p_begda = kosong",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_ocrsn terisi dan s_lgart, p_begda kosong.",
+      "expected_result": "Data yang ditampilkan hanya data yang memiliki ocrsn sesuai dengan yang diinput pada p_ocrsn.",
+      "test_data": "s_lgart = kosong, p_ocrsn = A, p_begda = kosong",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_begda terisi dan s_lgart, p_ocrsn kosong.",
+      "expected_result": "Data yang ditampilkan hanya data yang memiliki begda setelah tanggal yang diinput pada p_begda.",
+      "test_data": "s_lgart = kosong, p_ocrsn = kosong, p_begda = 01.01.2023",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan seluruh parameter selection-screen terisi.",
+      "expected_result": "Data yang ditampilkan hanya data yang memenuhi semua kriteria pada s_lgart, p_ocrsn, dan p_begda.",
+      "test_data": "s_lgart = 1000, p_ocrsn = A, p_begda = 01.01.2023",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter s_lgart tidak ada di data.",
+      "expected_result": "Tidak ada data yang ditampilkan dan muncul pesan error TEXT-m01.",
+      "test_data": "s_lgart = 9999, p_ocrsn = kosong, p_begda = kosong",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_ocrsn tidak ada di data.",
+      "expected_result": "Tidak ada data yang ditampilkan dan muncul pesan error TEXT-m01.",
+      "test_data": "s_lgart = kosong, p_ocrsn = Z, p_begda = kosong",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_begda lebih besar dari semua begda di data.",
+      "expected_result": "Tidak ada data yang ditampilkan dan muncul pesan error TEXT-m01.",
+      "test_data": "s_lgart = kosong, p_ocrsn = kosong, p_begda = 01.01.2024",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan data infotype 0267 kosong.",
+      "expected_result": "Tidak ada data yang ditampilkan dan muncul pesan error TEXT-m01.",
+      "test_data": "Data infotype 0267 kosong",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan input tanggal awal dan akhir yang valid.",
+      "expected_result": "Program berjalan normal dan menampilkan data sesuai kriteria.",
+      "test_data": "p_begda = 01.01.2023",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan input tanggal awal yang tidak valid (format salah).",
+      "expected_result": "Program menampilkan pesan error.",
+      "test_data": "p_begda = 'ABC'",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian performa dengan data yang sangat banyak.",
+      "expected_result": "Program berjalan dengan waktu yang wajar (misalnya, kurang dari 1 menit).",
+      "test_data": "Data infotype 0267 yang sangat banyak (misalnya, 1 juta record)",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan input data yang valid dan menghasilkan output yang sesuai.",
+      "expected_result": "Tabel ALV ditampilkan dengan data infotype 0267 yang telah difilter berdasarkan kriteria seleksi.",
+      "test_data": {
+        "p_ocrsn": "10",
+        "p_begda": "20231101",
+        "s_lgart-low": "1000",
+        "s_lgart-high": "",
+        "peras-pernr": "10000000"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter seleksi kosong.",
+      "expected_result": "Tabel ALV ditampilkan dengan semua data infotype 0267 sesuai range tanggal yang dihitung.",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "10000000"
+      },
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter seleksi s_lgart yang tidak ada di data.",
+      "expected_result": "Tabel ALV ditampilkan kosong karena data difilter dengan s_lgart yang tidak ada.",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "",
+        "s_lgart-low": "9999",
+        "s_lgart-high": "",
+        "peras-pernr": "10000000"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan parameter seleksi p_ocrsn yang tidak ada di data.",
+      "expected_result": "Tabel ALV ditampilkan kosong karena data difilter dengan p_ocrsn yang tidak ada.",
+      "test_data": {
+        "p_ocrsn": "99",
+        "p_begda": "",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "10000000"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_begda yang lebih besar dari tanggal di infotype 0267.",
+      "expected_result": "Tabel ALV ditampilkan kosong karena data difilter dengan p_begda yang lebih besar dari data yang ada.",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "99991231",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "10000000"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan pernr yang tidak ada di sistem.",
+      "expected_result": "Tabel ALV ditampilkan kosong dan tidak ada pesan error.",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "99999999"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian batas tanggal awal dan akhir bulan.",
+      "expected_result": "Data yang ditampilkan hanya pada bulan yang dipilih (parameter input).",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "20231201",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "10000000"
+      },
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian performa dengan data yang sangat banyak (lebih dari 10.000 record).",
+      "expected_result": "Tabel ALV ditampilkan dengan waktu yang wajar (tidak lebih dari 10 detik).",
+      "test_data": {
+        "p_ocrsn": "",
+        "p_begda": "",
+        "s_lgart-low": "",
+        "s_lgart-high": "",
+        "peras-pernr": "Generate data lebih dari 10.000 record"
+      },
+      "priority": "LOW"
+    },
+    {
+      "condition": "Pengujian dengan parameter s_lgart terisi dan p_ocrsn, p_begda kosong.",
+      "expected_result": "Report menampilkan data hanya untuk Wage Type yang dipilih di s_lgart.",
+      "test_data": "s_lgart: 1000, 2000\np_ocrsn: (kosong)\np_begda: (kosong)",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_ocrsn terisi dan s_lgart, p_begda kosong.",
+      "expected_result": "Report menampilkan data hanya untuk Reason Off Cycle Payroll yang dipilih di p_ocrsn.",
+      "test_data": "s_lgart: (kosong)\np_ocrsn: Z01\np_begda: (kosong)",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_begda terisi dan s_lgart, p_ocrsn kosong.",
+      "expected_result": "Report menampilkan data dengan begda lebih besar dari tanggal yang dipilih di p_begda.",
+      "test_data": "s_lgart: (kosong)\np_ocrsn: (kosong)\np_begda: 20230101",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan semua parameter selection screen terisi.",
+      "expected_result": "Report menampilkan data sesuai kombinasi filter s_lgart, p_ocrsn, dan p_begda.",
+      "test_data": "s_lgart: 1000, 2000\np_ocrsn: Z01\np_begda: 20230101",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan parameter s_lgart terisi dengan Wage Type yang tidak ada di sistem.",
+      "expected_result": "Report tidak menampilkan data.",
+      "test_data": "s_lgart: 9999 (Wage Type tidak ada)\np_ocrsn: (kosong)\np_begda: (kosong)",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan parameter p_ocrsn terisi dengan Reason Off Cycle Payroll yang tidak ada di sistem.",
+      "expected_result": "Report tidak menampilkan data.",
+      "test_data": "s_lgart: (kosong)\np_ocrsn: XXX (Reason tidak ada)\np_begda: (kosong)",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan data infotype 0267 kosong.",
+      "expected_result": "Report tidak menampilkan data dan menampilkan pesan error TEXT-m01.",
+      "test_data": "Data infotype 0267 kosong",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan data infotype 0001 dan/atau 0032 kosong.",
+      "expected_result": "Report menampilkan data dari infotype 0267, tetapi field terkait infotype 0001/0032 akan kosong.",
+      "test_data": "Data infotype 0001/0032 kosong",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian batas tanggal awal dan akhir bulan.",
+      "expected_result": "Report menampilkan data yang benar untuk tanggal awal dan akhir bulan.",
+      "test_data": "p_begda: tanggal awal dan akhir bulan",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan data banyak (misalnya 10.000 record).",
+      "expected_result": "Report menampilkan data dengan performa yang wajar.",
+      "test_data": "Data infotype 0267 sebanyak 10.000 record",
+      "priority": "LOW"
+    },
+    {
+      "condition": "Pengujian otorisasi pengguna yang valid.",
+      "expected_result": "Program berjalan dan menampilkan data.",
+      "test_data": "User yang terdaftar di ZP_SUPPORT_PAYROLL.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian otorisasi pengguna yang tidak valid.",
+      "expected_result": "Program menampilkan pesan error dan berhenti.",
+      "test_data": "User yang tidak terdaftar di ZP_SUPPORT_PAYROLL.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian proses yang sedang berjalan.",
+      "expected_result": "Program menampilkan pesan error dan berhenti.",
+      "test_data": "Jalankan report ini saat report dengan process id 'RHR006_01' sedang berjalan.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian data infotype 0015 kosong.",
+      "expected_result": "Tabel ALV kosong.",
+      "test_data": "Data karyawan tanpa infotype 0015.",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian data infotype 0015 ada, dengan selection parameter lgart terisi.",
+      "expected_result": "Tabel ALV menampilkan data sesuai selection parameter lgart.",
+      "test_data": "Data karyawan dengan infotype 0015, isikan parameter s_lgart dengan wage type yang ada.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian data infotype 0015 ada, dengan selection parameter lgart tidak terisi.",
+      "expected_result": "Tabel ALV menampilkan semua data infotype 0015.",
+      "test_data": "Data karyawan dengan infotype 0015, biarkan parameter s_lgart kosong.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian data infotype 0015 ada, dengan selection parameter lgart yang tidak ada di data.",
+      "expected_result": "Tabel ALV kosong.",
+      "test_data": "Data karyawan dengan infotype 0015, isikan parameter s_lgart dengan wage type yang tidak ada di data.",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan data infotype 0001 kosong.",
+      "expected_result": "Tabel ALV kosong.",
+      "test_data": "Data karyawan tanpa infotype 0001.",
+      "priority": "HIGH"
+    },
+    {
+      "condition": "Pengujian dengan data infotype 0032 kosong.",
+      "expected_result": "Field PREV_PERNR pada tabel ALV kosong.",
+      "test_data": "Data karyawan tanpa infotype 0032.",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan data master t001, tgsbt, dan t512t kosong.",
+      "expected_result": "Field BUTXT, GSBER_TEXT, dan LGTXT pada tabel ALV kosong.",
+      "test_data": "Kosongkan data di tabel t001, tgsbt, dan t512t.",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan input tanggal awal dan akhir.",
+      "expected_result": "Program memproses data dalam rentang tanggal yang diberikan.",
+      "test_data": "Berikan tanggal awal dan akhir pada parameter seleksi.",
+      "priority": "MEDIUM"
+    },
+    {
+      "condition": "Pengujian dengan input tanggal awal tidak valid.",
+      "expected_result": "Program menampilkan pesan error.",
+      "test_data": "Input tanggal awal dengan format yang salah.",
+      "priority": "LOW"
+    }
+  ],
+  "test_data_location": "",
+  "design_changes": []
+}

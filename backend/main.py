@@ -2494,9 +2494,91 @@ async def get_system_info():
     except Exception as e:
         logger.error(f"Error getting system info: {e}")
         raise HTTPException(status_code=500, detail=f"Error getting system info: {str(e)}")
-
+    
 @app.post("/api/process-html")
 async def process_html_file(html_file: UploadFile = File(...)):
+    """Process HTML file directly from upload without storing first."""
+    try:
+        logger.info(f"📥 Received file upload request: {html_file.filename}")
+
+        # Validate file type
+        if not html_file.filename.endswith(('.html', '.htm')):
+            logger.warning(f"❌ Invalid file type: {html_file.filename}")
+            raise HTTPException(status_code=400, detail="Only HTML files are allowed")
+        
+        # Read file content directly into memory
+        logger.info("📄 Reading file content from upload...")
+        file_bytes = await html_file.read()
+        logger.info(f"✅ Read {len(file_bytes)} bytes from file: {html_file.filename}")
+
+        # Save temporarily if fsd_generator requires a file path
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        temp_filename = f"temp_{timestamp}.html"
+        temp_path = os.path.join(OUTPUT_DIR, temp_filename)
+
+        logger.info(f"💾 Saving temp file to: {temp_path}")
+        with open(temp_path, "wb") as f:
+            f.write(file_bytes)
+        logger.info("✅ Temp file saved successfully.")
+
+        # Initialize generator if needed
+        if not fsd_generator:
+            logger.info("⚙ Initializing FSD Generator...")
+            try:
+                await initialize_fsd_generator()
+                logger.info("✅ FSD Generator initialized.")
+            except Exception as init_err:
+                logger.error(f"❌ Failed to initialize FSD Generator: {init_err}")
+                raise HTTPException(
+                    status_code=503,
+                    detail="FSD Generator not available. Please configure first."
+                )
+
+        # Process file directly
+        logger.info(f"🚀 Processing file: {temp_path}")
+        result = await fsd_generator.process_file(temp_path, None, OUTPUT_DIR)
+        logger.info("✅ File processed successfully by FSD Generator.")
+
+        # Read markdown output (if exists)
+        markdown_path = result.get('output_files', {}).get('markdown')
+        markdown_content = ""
+        if markdown_path and os.path.exists(markdown_path):
+            logger.info(f"📄 Reading markdown output from: {markdown_path}")
+            with open(markdown_path, 'r', encoding='utf-8') as md_file:
+                markdown_content = md_file.read()
+            logger.info(f"✅ Markdown file read successfully ({len(markdown_content)} chars).")
+        else:
+            logger.info("ℹ No markdown output found.")
+
+        # Convert to JSON-safe format
+        logger.info("🔄 Converting result to JSON-serializable format...")
+        serializable_result = dataclass_to_dict(result)
+        logger.info("✅ Conversion complete.")
+
+        # Delete temp file after processing
+        try:
+            os.remove(temp_path)
+            logger.info(f"🗑 Temp file deleted: {temp_path}")
+        except OSError as del_err:
+            logger.warning(f"⚠ Could not delete temp file: {del_err}")
+
+        return JSONResponse(content={
+            "success": True,
+            "filename": html_file.filename,
+            "processed_data": serializable_result,
+            "fsd_analysis": serializable_result.get('analysis_summary'),
+            "output_files": serializable_result.get('output_files'),
+            "markdown_content": markdown_content,
+            "message": "HTML file processed successfully"
+        })
+
+    except Exception as e:
+        logger.error(f"❌ Error processing HTML file: {str(e)}")
+        logger.error(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Error processing file: {str(e)}")
+
+@app.post("/api/process-html-v1")
+async def process_html_file_v1(html_file: UploadFile = File(...)):
     """Process single HTML file - Legacy endpoint for backward compatibility"""
     try:
         # Store the file first

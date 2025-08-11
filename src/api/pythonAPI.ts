@@ -58,7 +58,8 @@ export async function processHTMLWithMainPy(htmlFile: File): Promise<ProcessingR
         html_content_length: htmlFile.size
       },
       markdown: result.markdown_content || 'No markdown generated',
-      output_files: result.output_files    };
+      output_files: result.output_files    
+    };
   } catch (error) {
     console.error('Error processing HTML file:', error);
     return {

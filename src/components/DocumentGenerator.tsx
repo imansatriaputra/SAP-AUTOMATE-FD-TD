@@ -66,14 +66,17 @@ export function DocumentGenerator({
       storeFileLocally(file)
         .then((stored) => {
           setStoredFile(stored);
-          console.log('File stored successfully:', stored);
+          // console.log('File stored successfully:', stored);
           
-          // Write file to system for Python access
-          return writeFileToSystem(stored);
+          // // Write file to system for Python access
+          // return writeFileToSystem(stored);
+          // return true
+          console.log('then')
         })
         .then((systemPath) => {
-          setSystemFilePath(systemPath);
-          console.log('File written to system:', systemPath);
+          // setSystemFilePath(systemPath);
+          // console.log('File written to system:', systemPath);
+          console.log("Then")
         })
         .catch((error) => {
           console.error('Failed to store file:', error);
